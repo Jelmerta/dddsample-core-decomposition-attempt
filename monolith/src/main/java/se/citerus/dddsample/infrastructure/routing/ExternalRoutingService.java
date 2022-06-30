@@ -8,9 +8,9 @@ import org.apache.commons.logging.LogFactory;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
@@ -78,8 +78,8 @@ public class ExternalRoutingService implements RoutingService {
   private Leg toLeg(TransitEdge edge) {
     return new Leg(
       voyageRepository.find(new VoyageNumber(edge.getEdge())),
-      locationRepository.find(new UnLocode(edge.getFromNode())),
-      locationRepository.find(new UnLocode(edge.getToNode())),
+      locationRepository.find(LocationClient.createUnLocode(edge.getFromNode())),
+      locationRepository.find(LocationClient.createUnLocode(edge.getToNode())),
       edge.getFromDate(), edge.getToDate()
     );
   }

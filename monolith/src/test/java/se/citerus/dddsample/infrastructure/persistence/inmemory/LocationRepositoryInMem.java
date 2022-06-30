@@ -1,9 +1,9 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.inmemory;
+package se.citerus.dddsample.infrastructure.persistence.inmemory;
 
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.SampleLocations;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.SampleLocations;
+import se.citerus.dddsample.location.UnLocode;
 
 import java.util.List;
 

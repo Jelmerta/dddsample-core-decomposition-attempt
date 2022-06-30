@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.infrastructure.messaging.stub;
+package se.citerus.dddsample.infrastructure.messaging.stub;
 
 import se.citerus.dddsample.application.ApplicationEvents;
 import se.citerus.dddsample.application.CargoInspectionService;

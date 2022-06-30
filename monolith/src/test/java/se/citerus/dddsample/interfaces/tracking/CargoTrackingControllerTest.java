@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.interfaces.tracking;
+package se.citerus.dddsample.interfaces.tracking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,8 +18,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.CargoRepositoryInMem;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.HandlingEventRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.CargoRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.HandlingEventRepositoryInMem;
 
 
 @RunWith(SpringRunner.class)

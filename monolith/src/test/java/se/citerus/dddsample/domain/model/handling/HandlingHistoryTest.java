@@ -1,11 +1,11 @@
-package test.java.se.citerus.dddsample.domain.model.handling;
+package se.citerus.dddsample.domain.model.handling;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.citerus.dddsample.application.util.DateTestUtil.toDate;
-import static main.java.domain.SampleLocations.DALLAS;
-import static main.java.domain.SampleLocations.HONGKONG;
-import static main.java.domain.SampleLocations.SHANGHAI;
+import static se.citerus.dddsample.location.SampleLocations.DALLAS;
+import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
+import static se.citerus.dddsample.location.SampleLocations.SHANGHAI;
 
 import java.util.Date;
 

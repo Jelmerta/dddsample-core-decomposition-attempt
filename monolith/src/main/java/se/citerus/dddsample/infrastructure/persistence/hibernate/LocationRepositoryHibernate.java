@@ -1,9 +1,9 @@
 package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import org.springframework.stereotype.Repository;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 
 import java.util.List;
 

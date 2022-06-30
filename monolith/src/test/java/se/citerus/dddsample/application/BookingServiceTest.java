@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.application;
+package se.citerus.dddsample.application;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
@@ -6,8 +6,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static main.java.domain.SampleLocations.CHICAGO;
-import static main.java.domain.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.CHICAGO;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.service.RoutingService;
 
 public class BookingServiceTest {
@@ -42,8 +42,8 @@ public class BookingServiceTest {
   @Test
   public void testRegisterNew() {
     TrackingId expectedTrackingId = new TrackingId("TRK1");
-    UnLocode fromUnlocode = new UnLocode("USCHI");
-    UnLocode toUnlocode = new UnLocode("SESTO");
+    UnLocode fromUnlocode = LocationClient.createUnLocode("USCHI");
+    UnLocode toUnlocode = LocationClient.createUnLocode("SESTO");
 
     when(cargoRepository.nextTrackingId()).thenReturn(expectedTrackingId);
     when(locationRepository.find(fromUnlocode)).thenReturn(CHICAGO);

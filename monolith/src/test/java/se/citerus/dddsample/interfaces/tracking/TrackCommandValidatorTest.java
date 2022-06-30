@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.interfaces.tracking;
+package se.citerus.dddsample.interfaces.tracking;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,9 +29,9 @@ import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(value = {"/main/resources/context-infrastructure-persistence.xml"})
@@ -66,7 +66,7 @@ public class HandlingEventRepositoryTest {
 
     @Test
     public void testSave() {
-        Location location = locationRepository.find(new UnLocode("SESTO"));
+        Location location = locationRepository.find(LocationClient.createUnLocode("SESTO"));
 
         Cargo cargo = cargoRepository.find(new TrackingId("XYZ"));
         Date completionTime = new Date(10);

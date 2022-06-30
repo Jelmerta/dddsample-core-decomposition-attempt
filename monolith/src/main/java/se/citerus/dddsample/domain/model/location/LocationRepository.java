@@ -1,7 +1,7 @@
 package se.citerus.dddsample.domain.model.location;
 
-import main.java.domain.Location;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.location.UnLocode;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import main.java.domain.Location;
 import org.apache.commons.lang.Validate;
 
 import se.citerus.dddsample.domain.shared.DomainObjectUtils;
 import se.citerus.dddsample.domain.shared.Entity;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingHistory;
+import se.citerus.dddsample.location.Location;
 
 /**
  * A Cargo. This is the central class in the domain model,

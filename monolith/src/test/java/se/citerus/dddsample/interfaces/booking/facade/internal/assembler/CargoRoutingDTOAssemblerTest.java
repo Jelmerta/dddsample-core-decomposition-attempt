@@ -1,10 +1,10 @@
-package test.java.se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
+package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.java.domain.SampleLocations.MELBOURNE;
-import static main.java.domain.SampleLocations.ROTTERDAM;
-import static main.java.domain.SampleLocations.SHANGHAI;
-import static main.java.domain.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.MELBOURNE;
+import static se.citerus.dddsample.location.SampleLocations.ROTTERDAM;
+import static se.citerus.dddsample.location.SampleLocations.SHANGHAI;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.interfaces.booking.facade.dto.CargoRoutingDTO;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LegDTO;
 

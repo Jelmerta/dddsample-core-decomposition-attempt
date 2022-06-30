@@ -1,7 +1,6 @@
 package se.citerus.dddsample.application.util;
 
-import main.java.domain.Location;
-import main.java.domain.SampleLocations;
+import se.citerus.dddsample.client.Location;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +8,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.*;
 import se.citerus.dddsample.domain.model.handling.*;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
@@ -21,7 +21,6 @@ import java.util.Date;
 
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
-import static main.java.domain.SampleLocations.*;
 import static se.citerus.dddsample.application.util.DateTestUtil.toDate;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.*;
 
@@ -217,7 +216,9 @@ public class SampleDataGenerator {
             protected void doInTransactionWithoutResult(TransactionStatus status) {
                 Session session = sf.getCurrentSession();
 
-                for (Location location : SampleLocations.getAll()) {
+                // TODO LocationClient.getAllSampleLocations/SampleLocationsGetAll?
+//                for (Location location : SampleLocations.getAll()) {
+                for (Location location : LocationClient.SampleLocationsGetAll()) {
                     session.save(location);
                 }
 

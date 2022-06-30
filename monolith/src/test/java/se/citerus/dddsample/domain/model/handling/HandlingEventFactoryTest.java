@@ -1,18 +1,18 @@
-package test.java.se.citerus.dddsample.domain.model.handling;
+package se.citerus.dddsample.domain.model.handling;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type;
-import static main.java.domain.SampleLocations.HELSINKI;
-import static main.java.domain.SampleLocations.STOCKHOLM;
-import static main.java.domain.SampleLocations.TOKYO;
+import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.Date;
 
-import main.java.domain.UnknownLocationException;
+import se.citerus.dddsample.location.UnknownLocationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,12 +21,12 @@ import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
 
 public class HandlingEventFactoryTest {
 
@@ -89,7 +89,7 @@ public class HandlingEventFactoryTest {
   public void testCreateHandlingEventUnknownLocation() throws Exception {
     when(cargoRepository.find(trackingId)).thenReturn(cargo);
 
-    UnLocode invalid = new UnLocode("NOEXT");
+    UnLocode invalid = LocationClient.createUnLocode("NOEXT");
     try {
       factory.createHandlingEvent(
         new Date(), new Date(100), trackingId, CM001.voyageNumber(), invalid, Type.LOAD

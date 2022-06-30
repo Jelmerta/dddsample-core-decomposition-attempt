@@ -1,9 +1,9 @@
-package test.java.se.citerus.dddsample.domain.model.location;
+package se.citerus.dddsample.domain.model.location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import org.junit.Test;
 
 public class UnLocodeTest {
@@ -26,37 +26,37 @@ public class UnLocodeTest {
 
   @Test
   public void testIdString() {
-    assertThat(new UnLocode("AbcDe").idString()).isEqualTo("ABCDE");
+    assertThat(LocationClient.createUnLocode("AbcDe").idString()).isEqualTo("ABCDE");
   }
 
   @Test
   public void testEquals() {
-    UnLocode allCaps = new UnLocode("ABCDE");
-    UnLocode mixedCase = new UnLocode("aBcDe");
+    UnLocode allCaps = LocationClient.createUnLocode("ABCDE");
+    UnLocode mixedCase = LocationClient.createUnLocode("aBcDe");
 
     assertThat(allCaps.equals(mixedCase)).isTrue();
     assertThat(mixedCase.equals(allCaps)).isTrue();
     assertThat(allCaps.equals(allCaps)).isTrue();
 
     assertThat(allCaps.equals(null)).isFalse();
-    assertThat(allCaps.equals(new UnLocode("FGHIJ"))).isFalse();
+    assertThat(allCaps.equals(LocationClient.createUnLocode("FGHIJ"))).isFalse();
   }
 
   @Test
   public void testHashCode() {
-    UnLocode allCaps = new UnLocode("ABCDE");
-    UnLocode mixedCase = new UnLocode("aBcDe");
+    UnLocode allCaps = LocationClient.createUnLocode("ABCDE");
+    UnLocode mixedCase = LocationClient.createUnLocode("aBcDe");
 
     assertThat(mixedCase.hashCode()).isEqualTo(allCaps.hashCode());  
   }
   
   private void assertValid(String unlocode) {
-    new UnLocode(unlocode);
+    LocationClient.createUnLocode(unlocode);
   }
 
   private void assertInvalid(String unlocode) {
     try {
-      new UnLocode(unlocode);
+      LocationClient.createUnLocode(unlocode);
       fail("The combination [" + unlocode + "] is not a valid UnLocode");
     } catch (IllegalArgumentException expected) {}
   }

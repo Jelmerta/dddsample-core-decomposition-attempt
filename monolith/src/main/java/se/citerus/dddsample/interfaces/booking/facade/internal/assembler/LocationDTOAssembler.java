@@ -1,6 +1,6 @@
 package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LocationDTO;
 
 import java.util.ArrayList;

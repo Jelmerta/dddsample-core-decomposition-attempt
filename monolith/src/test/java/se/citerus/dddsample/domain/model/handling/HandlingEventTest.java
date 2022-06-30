@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.domain.model.handling;
+package se.citerus.dddsample.domain.model.handling;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,11 +9,11 @@ import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.LOAD
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.RECEIVE;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.UNLOAD;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.valueOf;
-import static main.java.domain.SampleLocations.CHICAGO;
-import static main.java.domain.SampleLocations.HAMBURG;
-import static main.java.domain.SampleLocations.HELSINKI;
-import static main.java.domain.SampleLocations.HONGKONG;
-import static main.java.domain.SampleLocations.NEWYORK;
+import static se.citerus.dddsample.location.SampleLocations.CHICAGO;
+import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
+import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
+import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
+import static se.citerus.dddsample.location.SampleLocations.NEWYORK;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM003;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM004;
 

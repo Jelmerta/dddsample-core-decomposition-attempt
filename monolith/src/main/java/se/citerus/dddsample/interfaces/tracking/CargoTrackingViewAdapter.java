@@ -1,6 +1,6 @@
 package se.citerus.dddsample.interfaces.tracking;
 
-import main.java.domain.Location;
+import se.citerus.dddsample.location.Location;
 import org.springframework.context.MessageSource;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.Delivery;

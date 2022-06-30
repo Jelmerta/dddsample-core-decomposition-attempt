@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import se.citerus.dddsample.application.util.SampleDataGenerator;
-import se.citerus.dddsample.domain.model.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.location.UnLocode;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(value = {"/main/resources/context-infrastructure-persistence.xml"})
@@ -43,12 +43,12 @@ public class LocationRepositoryTest {
 
     @Test
     public void testFind() {
-        final UnLocode melbourne = new UnLocode("AUMEL");
+        final UnLocode melbourne = LocationClient.createUnLocode("AUMEL");
         Location location = locationRepository.find(melbourne);
         assertThat(location).isNotNull();
         assertThat(location.unLocode()).isEqualTo(melbourne);
 
-        assertThat(locationRepository.find(new UnLocode("NOLOC"))).isNull();
+        assertThat(locationRepository.find(LocationClient.createUnLocode("NOLOC"))).isNull();
     }
 
     @Test

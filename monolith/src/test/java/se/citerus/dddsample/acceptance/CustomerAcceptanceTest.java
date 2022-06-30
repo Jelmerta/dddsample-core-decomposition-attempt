@@ -1,8 +1,8 @@
-package test.java.se.citerus.dddsample.acceptance;
+package se.citerus.dddsample.acceptance;
 
 import org.junit.Before;
 import org.junit.Test;
-import test.java.se.citerus.dddsample.acceptance.pages.CustomerPage;
+import se.citerus.dddsample.acceptance.pages.CustomerPage;
 
 public class CustomerAcceptanceTest extends AbstractAcceptanceTest {
     private CustomerPage customerPage;

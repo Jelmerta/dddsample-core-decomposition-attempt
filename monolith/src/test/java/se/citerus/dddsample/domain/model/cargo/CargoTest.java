@@ -1,6 +1,6 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import static main.java.domain.SampleLocations.*;
+import static se.citerus.dddsample.location.SampleLocations.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.citerus.dddsample.domain.model.cargo.RoutingStatus.MISROUTED;
 import static se.citerus.dddsample.domain.model.cargo.RoutingStatus.NOT_ROUTED;
@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import main.java.domain.Location;
+import se.citerus.dddsample.location.Location;
 import org.junit.Before;
 import org.junit.Test;
 

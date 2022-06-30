@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.domain.shared;
+package se.citerus.dddsample.domain.shared;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

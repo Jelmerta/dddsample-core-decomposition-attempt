@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.acceptance.pages;
+package se.citerus.dddsample.acceptance.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

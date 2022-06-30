@@ -5,9 +5,9 @@ import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.interfaces.booking.facade.BookingServiceFacade;
 import se.citerus.dddsample.interfaces.booking.facade.dto.CargoRoutingDTO;
@@ -45,8 +45,8 @@ public class BookingServiceFacadeImpl implements BookingServiceFacade {
   @Override
   public String bookNewCargo(String origin, String destination, Date arrivalDeadline) {
     TrackingId trackingId = bookingService.bookNewCargo(
-      new UnLocode(origin), 
-      new UnLocode(destination),
+      LocationClient.createUnLocode(origin),
+      LocationClient.createUnLocode(destination),
       arrivalDeadline
     );
     return trackingId.idString();
@@ -69,7 +69,7 @@ public class BookingServiceFacadeImpl implements BookingServiceFacade {
 
   @Override
   public void changeDestination(String trackingId, String destinationUnLocode) throws RemoteException {
-    bookingService.changeDestination(new TrackingId(trackingId), new UnLocode(destinationUnLocode));
+    bookingService.changeDestination(new TrackingId(trackingId), LocationClient.createUnLocode(destinationUnLocode));
   }
 
   @Override

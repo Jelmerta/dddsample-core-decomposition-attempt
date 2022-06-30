@@ -2,7 +2,7 @@ package se.citerus.dddsample.application;
 
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 
 import java.util.Date;
 import java.util.List;

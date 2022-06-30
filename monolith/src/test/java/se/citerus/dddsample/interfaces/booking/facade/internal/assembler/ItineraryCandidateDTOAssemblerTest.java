@@ -1,15 +1,15 @@
-package test.java.se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
+package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static main.java.domain.SampleLocations.CHICAGO;
-import static main.java.domain.SampleLocations.HONGKONG;
-import static main.java.domain.SampleLocations.MELBOURNE;
-import static main.java.domain.SampleLocations.ROTTERDAM;
-import static main.java.domain.SampleLocations.SHANGHAI;
-import static main.java.domain.SampleLocations.STOCKHOLM;
-import static main.java.domain.SampleLocations.TOKYO;
+import static se.citerus.dddsample.location.SampleLocations.CHICAGO;
+import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
+import static se.citerus.dddsample.location.SampleLocations.MELBOURNE;
+import static se.citerus.dddsample.location.SampleLocations.ROTTERDAM;
+import static se.citerus.dddsample.location.SampleLocations.SHANGHAI;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import org.junit.Test;
 
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LegDTO;
 import se.citerus.dddsample.interfaces.booking.facade.dto.RouteCandidateDTO;
 
@@ -68,9 +68,9 @@ public class ItineraryCandidateDTOAssemblerTest {
     legs.add(new LegDTO("CM001", "BBBBB", "CCCCC", new Date(), new Date()));
 
     final LocationRepository locationRepository = mock(LocationRepository.class);
-    when(locationRepository.find(new UnLocode("AAAAA"))).thenReturn(HONGKONG);
-    when(locationRepository.find(new UnLocode("BBBBB"))).thenReturn(TOKYO);
-    when(locationRepository.find(new UnLocode("CCCCC"))).thenReturn(CHICAGO);
+    when(locationRepository.find(LocationClient.createUnLocode("AAAAA"))).thenReturn(HONGKONG);
+    when(locationRepository.find(LocationClient.createUnLocode("BBBBB"))).thenReturn(TOKYO);
+    when(locationRepository.find(LocationClient.createUnLocode("CCCCC"))).thenReturn(CHICAGO);
 
     final VoyageRepository voyageRepository = new VoyageRepositoryInMem();
 

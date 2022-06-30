@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.interfaces.booking.web;
+package se.citerus.dddsample.interfaces.booking.web;
 
 import org.assertj.core.groups.Tuple;
 import org.junit.Test;

@@ -1,13 +1,13 @@
-package test.java.se.citerus.dddsample.application;
+package se.citerus.dddsample.application;
 
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static main.java.domain.SampleLocations.HAMBURG;
-import static main.java.domain.SampleLocations.STOCKHOLM;
-import static main.java.domain.SampleLocations.TOKYO;
+import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.Date;

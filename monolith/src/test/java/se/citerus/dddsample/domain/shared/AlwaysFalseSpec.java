@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.domain.shared;
+package se.citerus.dddsample.domain.shared;
 
 public class AlwaysFalseSpec extends AbstractSpecification<Object> {
   public boolean isSatisfiedBy(Object o) {

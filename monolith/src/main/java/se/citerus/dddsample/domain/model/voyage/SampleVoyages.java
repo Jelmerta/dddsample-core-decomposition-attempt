@@ -1,10 +1,10 @@
 package se.citerus.dddsample.domain.model.voyage;
 
-import main.java.domain.Location;
+import se.citerus.dddsample.location.Location;
 
 import static se.citerus.dddsample.application.util.DateTestUtil.toDate;
 
-import static main.java.domain.SampleLocations.*;
+import static se.citerus.dddsample.location.SampleLocations.*;
 
 import java.lang.reflect.Field;
 import java.util.*;

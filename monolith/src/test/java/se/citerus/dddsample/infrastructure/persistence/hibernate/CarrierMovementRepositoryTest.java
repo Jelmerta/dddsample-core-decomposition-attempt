@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

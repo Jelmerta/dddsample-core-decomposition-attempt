@@ -1,16 +1,16 @@
-package test.java.se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
+package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.java.domain.SampleLocations.HAMBURG;
-import static main.java.domain.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
-import se.citerus.dddsample.domain.model.location.Location;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LocationDTO;
+import se.citerus.dddsample.location.Location;
 
 public class LocationDTOAssemblerTest {
 

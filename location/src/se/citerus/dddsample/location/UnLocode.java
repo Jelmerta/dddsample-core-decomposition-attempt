@@ -1,4 +1,4 @@
-package main.java.domain;
+package se.citerus.dddsample.location;
 
 import org.apache.commons.lang.Validate;
 import se.citerus.dddsample.domain.shared.ValueObject;

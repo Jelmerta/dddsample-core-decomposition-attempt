@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.scenario;
+package se.citerus.dddsample.scenario;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -14,12 +14,12 @@ import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.CLAI
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.LOAD;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.RECEIVE;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.UNLOAD;
-import static main.java.domain.SampleLocations.CHICAGO;
-import static main.java.domain.SampleLocations.HAMBURG;
-import static main.java.domain.SampleLocations.HONGKONG;
-import static main.java.domain.SampleLocations.NEWYORK;
-import static main.java.domain.SampleLocations.STOCKHOLM;
-import static main.java.domain.SampleLocations.TOKYO;
+import static se.citerus.dddsample.location.SampleLocations.CHICAGO;
+import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
+import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
+import static se.citerus.dddsample.location.SampleLocations.NEWYORK;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.v100;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.v200;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.v300;
@@ -50,17 +50,17 @@ import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.CannotCreateHandlingEventException;
 import se.citerus.dddsample.domain.model.handling.HandlingEventFactory;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
-import test.java.se.citerus.dddsample.infrastructure.messaging.stub.SynchronousApplicationEventsStub;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.CargoRepositoryInMem;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.HandlingEventRepositoryInMem;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
+import se.citerus.dddsample.infrastructure.messaging.stub.SynchronousApplicationEventsStub;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.CargoRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.HandlingEventRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
 
 public class CargoLifecycleScenarioTest {
 
@@ -199,7 +199,7 @@ public class CargoLifecycleScenarioTest {
       This attempt will be rejected and will not affect the cargo delivery in any way.
      */
     final VoyageNumber noSuchVoyageNumber = new VoyageNumber("XX000");
-    final UnLocode noSuchUnLocode = new UnLocode("ZZZZZ");
+    final UnLocode noSuchUnLocode = LocationClient.createUnLocode("ZZZZZ");
     try {
       handlingEventService.registerHandlingEvent(
       toDate("2009-03-05"), trackingId, noSuchVoyageNumber, noSuchUnLocode, LOAD

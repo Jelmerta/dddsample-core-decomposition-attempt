@@ -4,7 +4,7 @@ import main.java.com.aggregator.HandlingReport;
 import org.apache.commons.lang.StringUtils;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -26,7 +26,7 @@ public class HandlingReportParser {
 
   public static UnLocode parseUnLocode(final String unlocode, final List<String> errors) {
     try {
-      return new UnLocode(unlocode);
+      return LocationClient.createUnLocode(unlocode);
     } catch (IllegalArgumentException e) {
       errors.add(e.getMessage());
       return null;

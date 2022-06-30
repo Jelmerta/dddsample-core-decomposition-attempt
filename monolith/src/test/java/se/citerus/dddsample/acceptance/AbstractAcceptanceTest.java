@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.acceptance;
+package se.citerus.dddsample.acceptance;
 
 import org.junit.After;
 import org.junit.Before;

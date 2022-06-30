@@ -1,13 +1,13 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.LOAD;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.RECEIVE;
-import static main.java.domain.SampleLocations.HELSINKI;
-import static main.java.domain.SampleLocations.HONGKONG;
-import static main.java.domain.SampleLocations.MELBOURNE;
-import static main.java.domain.SampleLocations.STOCKHOLM;
-import static main.java.domain.SampleLocations.TOKYO;
+import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
+import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
+import static se.citerus.dddsample.location.SampleLocations.MELBOURNE;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM004;
 
 import java.lang.reflect.Field;
@@ -40,9 +40,9 @@ import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -188,8 +188,8 @@ public class CargoRepositoryTest {
         Long cargoId = getLongId(cargo);
         assertThat(jdbcTemplate.queryForObject("select count(*) from Leg where cargo_id = ?", new Object[]{cargoId}, Integer.class).intValue()).isEqualTo(3);
 
-        Location legFrom = locationRepository.find(new UnLocode("FIHEL"));
-        Location legTo = locationRepository.find(new UnLocode("DEHAM"));
+        Location legFrom = locationRepository.find(LocationClient.createUnLocode("FIHEL"));
+        Location legTo = locationRepository.find(LocationClient.createUnLocode("DEHAM"));
         Itinerary newItinerary = new Itinerary(Collections.singletonList(new Leg(CM004, legFrom, legTo, new Date(), new Date())));
 
         cargo.assignToRoute(newItinerary);

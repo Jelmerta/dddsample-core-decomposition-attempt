@@ -1,9 +1,9 @@
-package test.java.se.citerus.dddsample.domain.model.voyage;
+package se.citerus.dddsample.domain.model.voyage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static main.java.domain.SampleLocations.HAMBURG;
-import static main.java.domain.SampleLocations.STOCKHOLM;
+import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
+import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
 
 import java.util.Date;
 

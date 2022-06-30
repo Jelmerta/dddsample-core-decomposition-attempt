@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.domain.model.cargo;
+package se.citerus.dddsample.domain.model.cargo;
 
 import static org.assertj.core.api.Assertions.fail;
 

@@ -1,0 +1,45 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package se.citerus.dddsample.client;
+
+message Location {
+  UnLocode unLocode = 1;
+  string name = 2;
+}
+
+message UnLocode {
+  string unlocode = 1;
+}
+
+message CreateLocationRequest {
+  UnLocode unLocode = 1;
+  string name = 2;
+}
+
+message CreateLocationResponse {
+  Location location = 1;
+}
+
+message CreateUnLocodeRequest {
+  string unlocode = 1;
+}
+
+message CreateUnLocodeResponse {
+  UnLocode unLocode = 1;
+}
+
+message SampleLocationsGetAllRequest {
+
+}
+
+message SampleLocationsGetAllResponse {
+  repeated Location locations = 1;
+}
+
+// TODO A smarter service would not have different calls for createUnlocode and Location as usually during Location create you also create Unlocode. Fine for now?
+service LocationService {
+  rpc CreateLocation(CreateLocationRequest) returns (CreateLocationResponse);
+  rpc CreateUnLocode(CreateUnLocodeRequest) returns (CreateUnLocodeResponse);
+
+  rpc SampleLocationsGetAll(SampleLocationsGetAllRequest) returns (SampleLocationsGetAllResponse);
+}

@@ -166,6 +166,17 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>htmlunit-driver</artifactId>
         </dependency>
+<!--        TODO: We do not want this dependency! We would like to get rid of dependency on internal class definition as this should be part of Location service -->
+<!--        <dependency>-->
+<!--            <groupId>se.citerus.dddsample</groupId>-->
+<!--            <artifactId>location</artifactId>-->
+<!--            <version>1</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>se.citerus.dddsample</groupId>
+            <artifactId>client</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 
     <reporting>

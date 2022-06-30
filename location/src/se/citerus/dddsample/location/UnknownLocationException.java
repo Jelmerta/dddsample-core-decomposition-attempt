@@ -1,4 +1,4 @@
-package main.java.domain;
+package se.citerus.dddsample.location;
 
 import se.citerus.dddsample.domain.model.handling.CannotCreateHandlingEventException;
 

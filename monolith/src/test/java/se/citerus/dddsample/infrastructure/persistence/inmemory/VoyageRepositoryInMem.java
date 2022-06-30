@@ -1,4 +1,4 @@
-package test.java.se.citerus.dddsample.infrastructure.persistence.inmemory;
+package se.citerus.dddsample.infrastructure.persistence.inmemory;
 
 import se.citerus.dddsample.domain.model.voyage.SampleVoyages;
 import se.citerus.dddsample.domain.model.voyage.Voyage;

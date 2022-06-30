@@ -1,6 +1,6 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import main.java.domain.Location;
+import se.citerus.dddsample.location.Location;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;

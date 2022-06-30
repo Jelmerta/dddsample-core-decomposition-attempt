@@ -1,10 +1,10 @@
-package test.java.se.citerus.dddsample.acceptance;
+package se.citerus.dddsample.acceptance;
 
 import org.junit.Test;
-import test.java.se.citerus.dddsample.acceptance.pages.AdminPage;
-import test.java.se.citerus.dddsample.acceptance.pages.CargoBookingPage;
-import test.java.se.citerus.dddsample.acceptance.pages.CargoDestinationPage;
-import test.java.se.citerus.dddsample.acceptance.pages.CargoDetailsPage;
+import se.citerus.dddsample.acceptance.pages.AdminPage;
+import se.citerus.dddsample.acceptance.pages.CargoBookingPage;
+import se.citerus.dddsample.acceptance.pages.CargoDestinationPage;
+import se.citerus.dddsample.acceptance.pages.CargoDetailsPage;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

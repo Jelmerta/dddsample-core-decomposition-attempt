@@ -1,6 +1,6 @@
 package se.citerus.dddsample.domain.model.handling;
 
-import main.java.domain.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;

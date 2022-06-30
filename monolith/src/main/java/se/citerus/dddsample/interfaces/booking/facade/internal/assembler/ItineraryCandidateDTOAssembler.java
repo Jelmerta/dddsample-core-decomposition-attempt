@@ -2,9 +2,9 @@ package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -55,8 +55,8 @@ public class ItineraryCandidateDTOAssembler {
     for (LegDTO legDTO : routeCandidateDTO.getLegs()) {
       final VoyageNumber voyageNumber = new VoyageNumber(legDTO.getVoyageNumber());
       final Voyage voyage = voyageRepository.find(voyageNumber);
-      final Location from = locationRepository.find(new UnLocode(legDTO.getFrom()));
-      final Location to = locationRepository.find(new UnLocode(legDTO.getTo()));
+      final Location from = locationRepository.find(LocationClient.createUnLocode(legDTO.getFrom()));
+      final Location to = locationRepository.find(LocationClient.createUnLocode(legDTO.getTo()));
       legs.add(new Leg(voyage, from, to, legDTO.getLoadTime(), legDTO.getUnloadTime()));
     }
     return new Itinerary(legs);

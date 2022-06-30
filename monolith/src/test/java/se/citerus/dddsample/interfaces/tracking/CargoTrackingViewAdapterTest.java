@@ -1,8 +1,8 @@
-package test.java.se.citerus.dddsample.interfaces.tracking;
+package se.citerus.dddsample.interfaces.tracking;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static main.java.domain.SampleLocations.HANGZOU;
-import static main.java.domain.SampleLocations.HELSINKI;
+import static se.citerus.dddsample.location.SampleLocations.HANGZOU;
+import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.ArrayList;

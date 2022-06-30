@@ -1,7 +1,7 @@
 package se.citerus.dddsample.application.impl;
 
-import main.java.domain.Location;
-import main.java.domain.UnLocode;
+import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.cargo.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,16 +1,16 @@
-package test.java.se.citerus.dddsample.infrastructure.routing;
+package se.citerus.dddsample.infrastructure.routing;
 
 import com.pathfinder.api.GraphTraversalService;
 import com.pathfinder.internal.GraphDAOStub;
 import com.pathfinder.internal.GraphTraversalServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import se.citerus.dddsample.domain.model.location.Location;
+import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.SampleVoyages;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
-import test.java.se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
+import se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static main.java.domain.SampleLocations.*;
+import static se.citerus.dddsample.location.SampleLocations.*;
 
 public class ExternalRoutingServiceTest {
 

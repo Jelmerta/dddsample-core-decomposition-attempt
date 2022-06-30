@@ -1,4 +1,6 @@
-package main.java.domain;
+package se.citerus.dddsample.location;
+
+import se.citerus.dddsample.client.LocationClient;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -10,6 +12,15 @@ import java.util.Map;
  * Sample locations, for test purposes.
  * 
  */
+// TODO Suggested to be in Location service... This is test data.
+// Refactored, I think this should be data-only code, without dependency on Location service.
+// Not too sure what to do with this now...
+// I think one way to notice this is to find public static final constants.
+// Probably do not want to add these as environment variables either, becomes a mess.
+// Maybe these are marked as: "Work needs to be done to make these classes functional"? Refactoring this is probably the best way unless we find a solution that developers will be happy with.
+// Perhaps an option is to add these in the proto as well as constants if that is possible? Not really the right location imo as it is test data.
+  // Maybe a "SampleLocations.getStatic(String)"? Potentially different return types in other cases...
+  // Worst case: Different call for every variable. Would be easier to deal with probably...
 public class SampleLocations {
 
   public static final Location HONGKONG = new Location(new UnLocode("CNHKG"), "Hongkong");
@@ -41,6 +52,7 @@ public class SampleLocations {
     }
   }
 
+  // TODO Used as service side getAll
   public static List<Location> getAll() {
     return new ArrayList<Location>(ALL.values());
   }
