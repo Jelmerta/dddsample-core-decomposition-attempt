@@ -1,6 +1,6 @@
 package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LocationDTO;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 public class LocationDTOAssembler {
 
   public LocationDTO toDTO(Location location) {
-    return new LocationDTO(location.unLocode().idString(), location.name());
+    return new LocationDTO(location.getUnLocode().getUnlocode(), location.getName());
   }
 
   public List<LocationDTO> toDTOList(List<Location> allLocations) {

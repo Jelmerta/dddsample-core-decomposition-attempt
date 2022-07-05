@@ -1,5 +1,5 @@
 
-package main.java.com.aggregator;
+package com.aggregator;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;

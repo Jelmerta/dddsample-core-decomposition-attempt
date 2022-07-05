@@ -1,7 +1,7 @@
 package se.citerus.dddsample.location;
 
 import org.apache.commons.lang.Validate;
-import se.citerus.dddsample.domain.shared.ValueObject;
+import se.citerus.dddsample.common.ValueObject;
 
 import java.util.regex.Pattern;
 
@@ -32,10 +32,16 @@ public final class UnLocode implements ValueObject<UnLocode> {
     this.unlocode = countryAndLocation.toUpperCase();
   }
 
+  public UnLocode(se.citerus.dddsample.client.UnLocode unLocode) {
+    this.unlocode = unLocode.getUnlocode();
+  }
+
+  // TODO This is just a normal getter, but with a different name. Shouldn't be a service call...
+  // TODO For now just rename it to the field?
   /**
    * @return country code and location code concatenated, always upper case.
    */
-  public String idString() {
+  public String getUnlocode() {
     return unlocode;
   }
 
@@ -61,7 +67,7 @@ public final class UnLocode implements ValueObject<UnLocode> {
 
   @Override
   public String toString() {
-    return idString();
+    return getUnlocode();
   }
 
   UnLocode() {

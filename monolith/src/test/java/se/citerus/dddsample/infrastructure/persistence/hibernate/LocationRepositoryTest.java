@@ -18,9 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import se.citerus.dddsample.application.util.SampleDataGenerator;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.Location;
-import se.citerus.dddsample.location.UnLocode;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(value = {"/main/resources/context-infrastructure-persistence.xml"})
@@ -46,7 +47,7 @@ public class LocationRepositoryTest {
         final UnLocode melbourne = LocationClient.createUnLocode("AUMEL");
         Location location = locationRepository.find(melbourne);
         assertThat(location).isNotNull();
-        assertThat(location.unLocode()).isEqualTo(melbourne);
+        assertThat(location.getUnLocode()).isEqualTo(melbourne);
 
         assertThat(locationRepository.find(LocationClient.createUnLocode("NOLOC"))).isNull();
     }

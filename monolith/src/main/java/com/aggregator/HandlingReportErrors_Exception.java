@@ -1,5 +1,5 @@
 
-package main.java.com.aggregator;
+package com.aggregator;
 
 import javax.xml.ws.WebFault;
 
@@ -26,7 +26,7 @@ public class HandlingReportErrors_Exception
      * @param message
      * @param faultInfo
      */
-    public HandlingReportErrors_Exception(String message, HandlingReportErrors faultInfo) {
+    public HandlingReportErrors_Exception(String message, com.aggregator.HandlingReportErrors faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class HandlingReportErrors_Exception
      * @param faultInfo
      * @param cause
      */
-    public HandlingReportErrors_Exception(String message, HandlingReportErrors faultInfo, Throwable cause) {
+    public HandlingReportErrors_Exception(String message, com.aggregator.HandlingReportErrors faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }

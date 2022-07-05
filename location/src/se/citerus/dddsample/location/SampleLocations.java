@@ -1,8 +1,7 @@
 package se.citerus.dddsample.location;
 
-import se.citerus.dddsample.client.LocationClient;
-
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,4 +60,22 @@ public class SampleLocations {
     return ALL.get(unLocode);
   }
 
+  // TODO We use reflection to find the location (we wouldn't easily know about the function above without human intervention)
+  // We could rewrite this so that reflection is not required (adding the constants in a map in a constructor one by one and then making a find function on that? might be better ways), but for now this is the easiest solution.
+  public static Location findConstant (String name) {
+    Class<SampleLocations> c = SampleLocations.class;
+    for (Field field : c.getDeclaredFields()) {
+      int mod = field.getModifiers();
+      if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && Modifier.isFinal(mod)) {
+        try {
+          if (field.getName().equals(name)) { // Case sensitive (we might have two constants with same name but different capitalization)
+            return (Location) field.get(null);
+          }
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    throw new IllegalArgumentException(); // We do not expect constants to not be found as we should have found every usage in the calling functions
+  }
 }

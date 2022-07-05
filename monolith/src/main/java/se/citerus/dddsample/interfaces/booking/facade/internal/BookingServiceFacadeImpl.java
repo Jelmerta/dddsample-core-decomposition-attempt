@@ -1,13 +1,13 @@
 package se.citerus.dddsample.interfaces.booking.facade.internal;
 
 import se.citerus.dddsample.application.BookingService;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.interfaces.booking.facade.BookingServiceFacade;
 import se.citerus.dddsample.interfaces.booking.facade.dto.CargoRoutingDTO;

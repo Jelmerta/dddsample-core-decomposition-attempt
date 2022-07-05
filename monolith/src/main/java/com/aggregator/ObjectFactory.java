@@ -1,5 +1,5 @@
 
-package main.java.com.aggregator;
+package com.aggregator;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

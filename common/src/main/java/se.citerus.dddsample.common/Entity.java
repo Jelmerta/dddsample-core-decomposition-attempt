@@ -1,4 +1,4 @@
-package se.citerus.dddsample.domain.shared;
+package se.citerus.dddsample.common;
 
 /**
  * An entity, as explained in the DDD book.

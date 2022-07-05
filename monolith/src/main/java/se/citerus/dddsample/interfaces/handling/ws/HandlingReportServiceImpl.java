@@ -1,15 +1,15 @@
 package se.citerus.dddsample.interfaces.handling.ws;
 
-import main.java.com.aggregator.HandlingReport;
-import main.java.com.aggregator.HandlingReportErrors;
-import main.java.com.aggregator.HandlingReportErrors_Exception;
-import main.java.com.aggregator.HandlingReportService;
+import com.aggregator.HandlingReport;
+import com.aggregator.HandlingReportErrors;
+import com.aggregator.HandlingReportErrors_Exception;
+import com.aggregator.HandlingReportService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import se.citerus.dddsample.application.ApplicationEvents;
+import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.interfaces.handling.HandlingEventRegistrationAttempt;
 import static se.citerus.dddsample.interfaces.handling.HandlingReportParser.*;

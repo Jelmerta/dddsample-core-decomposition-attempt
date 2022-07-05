@@ -1,10 +1,10 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import org.apache.commons.lang.Validate;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
-import se.citerus.dddsample.domain.shared.ValueObject;
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.common.ValueObject;
 
 import java.util.Collections;
 import java.util.Date;
@@ -60,7 +60,7 @@ public class Itinerary implements ValueObject<Itinerary> {
     if (event.type() == HandlingEvent.Type.LOAD) {
       //Check that the there is one leg with same load location and voyage
       for (Leg leg : legs) {
-        if (leg.loadLocation().sameIdentityAs(event.location()) &&
+        if (LocationClient.locationSameIdentityAs(leg.loadLocation(), event.location()) &&
             leg.voyage().sameIdentityAs(event.voyage()))
           return true;
       }
@@ -92,7 +92,8 @@ public class Itinerary implements ValueObject<Itinerary> {
    */
   Location initialDepartureLocation() {
      if (legs.isEmpty()) {
-       return Location.UNKNOWN;
+       Location UNKNOWN = LocationClient.sampleLocationsGetLocation("UNKNOWN");
+       return UNKNOWN;
      } else {
        return legs.get(0).loadLocation();
      }
@@ -103,7 +104,8 @@ public class Itinerary implements ValueObject<Itinerary> {
    */
   Location finalArrivalLocation() {
     if (legs.isEmpty()) {
-      return Location.UNKNOWN;
+      Location UNKNOWN = LocationClient.sampleLocationsGetLocation("UNKNOWN");
+      return UNKNOWN;
     } else {
       return lastLeg().unloadLocation();
     }

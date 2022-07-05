@@ -3,7 +3,8 @@ package se.citerus.dddsample.domain.model.location;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-import se.citerus.dddsample.location.UnLocode;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import org.junit.Test;
 
 public class LocationTest {
@@ -26,7 +27,7 @@ public class LocationTest {
     assertThat(location.equals(null)).isFalse();
 
     // Special UNKNOWN location is equal to itself
-    assertThat(Location.UNKNOWN.equals(Location.UNKNOWN)).isTrue();
+    assertThat(LocationClient.sampleLocationsGetLocation("UNKNOWN").equals(LocationClient.sampleLocationsGetLocation("UNKNOWN"))).isTrue();
 
     try {
       LocationClient.createLocation(null, null);

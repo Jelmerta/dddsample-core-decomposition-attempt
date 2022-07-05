@@ -2,7 +2,7 @@ package se.citerus.dddsample.domain.shared.experimental;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import se.citerus.dddsample.domain.shared.ValueObject;
+import se.citerus.dddsample.common.ValueObject;
 
 /**
  * Base class for value objects.

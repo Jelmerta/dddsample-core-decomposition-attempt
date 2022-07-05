@@ -1,7 +1,7 @@
 package se.citerus.dddsample.interfaces.tracking;
 
-import se.citerus.dddsample.location.Location;
 import org.springframework.context.MessageSource;
+import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.Delivery;
 import se.citerus.dddsample.domain.model.cargo.HandlingActivity;
@@ -60,7 +60,7 @@ public final class CargoTrackingViewAdapter {
    * @return A formatted string for displaying the location.
    */
   private String getDisplayText(Location location) {
-    return location.name();
+    return location.getName();
   }
 
   /**
@@ -135,13 +135,13 @@ public final class CargoTrackingViewAdapter {
     if (type.sameValueAs(HandlingEvent.Type.LOAD)) {
         return
           text + type.name().toLowerCase() + " cargo onto voyage " + activity.voyage().voyageNumber() +
-          " in " + activity.location().name();
+          " in " + activity.location().getName();
       } else if (type.sameValueAs(HandlingEvent.Type.UNLOAD)) {
         return
           text + type.name().toLowerCase() + " cargo off of " + activity.voyage().voyageNumber() +
-          " in " + activity.location().name();
+          " in " + activity.location().getName();
       } else {
-        return text + type.name().toLowerCase() + " cargo in " + activity.location().name();
+        return text + type.name().toLowerCase() + " cargo in " + activity.location().getName();
       }
   }
 
@@ -172,7 +172,7 @@ public final class CargoTrackingViewAdapter {
      * @return Location where the event occurred.
      */
     public String getLocation() {
-      return handlingEvent.location().name();
+      return handlingEvent.location().getName();
     }
 
     /**
@@ -214,7 +214,7 @@ public final class CargoTrackingViewAdapter {
         case UNLOAD:
           args = new Object[] {
             handlingEvent.voyage().voyageNumber().idString(),
-            handlingEvent.location().name(),
+            handlingEvent.location().getName(),
             handlingEvent.completionTime()
           };
           break;
@@ -222,7 +222,7 @@ public final class CargoTrackingViewAdapter {
         case RECEIVE:
         case CLAIM:
           args = new Object[] {
-            handlingEvent.location().name(),
+            handlingEvent.location().getName(),
             handlingEvent.completionTime()
           };
           break;

@@ -1,14 +1,13 @@
 package se.citerus.dddsample.infrastructure.persistence.inmemory;
 
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
 import se.citerus.dddsample.domain.model.handling.HandlingHistory;
-import se.citerus.dddsample.location.Location;
-
-import static se.citerus.dddsample.location.SampleLocations.*;
 
 import java.util.*;
 
@@ -54,22 +53,22 @@ public class CargoRepositoryInMem implements CargoRepository {
     public void init() throws Exception {
         final TrackingId xyz = new TrackingId("XYZ");
         final Cargo cargoXYZ = createCargoWithDeliveryHistory(
-                xyz, STOCKHOLM, MELBOURNE, handlingEventRepository.lookupHandlingHistoryOfCargo(xyz));
+                xyz, LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("MELBOURNE"), handlingEventRepository.lookupHandlingHistoryOfCargo(xyz));
         cargoDb.put(xyz.idString(), cargoXYZ);
 
         final TrackingId zyx = new TrackingId("ZYX");
         final Cargo cargoZYX = createCargoWithDeliveryHistory(
-                zyx, MELBOURNE, STOCKHOLM, handlingEventRepository.lookupHandlingHistoryOfCargo(zyx));
+                zyx, LocationClient.sampleLocationsGetLocation("MELBOURNE"), LocationClient.sampleLocationsGetLocation("STOCKHOLM"), handlingEventRepository.lookupHandlingHistoryOfCargo(zyx));
         cargoDb.put(zyx.idString(), cargoZYX);
 
         final TrackingId abc = new TrackingId("ABC");
         final Cargo cargoABC = createCargoWithDeliveryHistory(
-                abc, STOCKHOLM, HELSINKI, handlingEventRepository.lookupHandlingHistoryOfCargo(abc));
+                abc, LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("HELSINKI"), handlingEventRepository.lookupHandlingHistoryOfCargo(abc));
         cargoDb.put(abc.idString(), cargoABC);
 
         final TrackingId cba = new TrackingId("CBA");
         final Cargo cargoCBA = createCargoWithDeliveryHistory(
-                cba, HELSINKI, STOCKHOLM, handlingEventRepository.lookupHandlingHistoryOfCargo(cba));
+                cba, LocationClient.sampleLocationsGetLocation("HELSINKI"), LocationClient.sampleLocationsGetLocation("STOCKHOLM"), handlingEventRepository.lookupHandlingHistoryOfCargo(cba));
         cargoDb.put(cba.idString(), cargoCBA);
     }
 

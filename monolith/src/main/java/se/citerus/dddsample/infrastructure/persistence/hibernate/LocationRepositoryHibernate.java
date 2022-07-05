@@ -1,12 +1,13 @@
 package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import org.springframework.stereotype.Repository;
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.UnLocode;
 
 import java.util.List;
 
+// TODO This is not found, but pretty much required in the Location service...
 @Repository
 public class LocationRepositoryHibernate extends HibernateRepository implements LocationRepository {
 

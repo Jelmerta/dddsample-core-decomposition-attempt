@@ -5,7 +5,9 @@ import com.pathfinder.internal.GraphDAOStub;
 import com.pathfinder.internal.GraphTraversalServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.domain.model.cargo.*;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.SampleVoyages;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
@@ -20,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static se.citerus.dddsample.location.SampleLocations.*;
 
 public class ExternalRoutingServiceTest {
 
@@ -38,7 +39,7 @@ public class ExternalRoutingServiceTest {
 
     GraphTraversalService graphTraversalService = new GraphTraversalServiceImpl(new GraphDAOStub() {
       public List<String> listLocations() {
-        return Arrays.asList(TOKYO.unLocode().idString(), STOCKHOLM.unLocode().idString(), GOTHENBURG.unLocode().idString());
+        return Arrays.asList(LocationClient.sampleLocationsGetLocation("TOKYO").getUnLocode().getUnlocode(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode().getUnlocode(), LocationClient.sampleLocationsGetLocation("GOTHENBURG").getUnLocode().getUnlocode());
       }
 
       public void storeCarrierMovementId(String cmId, String from, String to) {
@@ -51,7 +52,7 @@ public class ExternalRoutingServiceTest {
   @Test
   public void testCalculatePossibleRoutes() {
     TrackingId trackingId = new TrackingId("ABC");
-    RouteSpecification routeSpecification = new RouteSpecification(HONGKONG, HELSINKI, new Date());
+    RouteSpecification routeSpecification = new RouteSpecification(LocationClient.sampleLocationsGetLocation("HONGKONG"), LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date());
     Cargo cargo = new Cargo(trackingId, routeSpecification);
 
     when(voyageRepository.find(isA(VoyageNumber.class))).thenReturn(SampleVoyages.CM002);

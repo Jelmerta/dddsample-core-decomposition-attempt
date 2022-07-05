@@ -1,15 +1,16 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import se.citerus.dddsample.location.Location;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import static se.citerus.dddsample.domain.model.cargo.RoutingStatus.*;
 import static se.citerus.dddsample.domain.model.cargo.TransportStatus.*;
 
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.shared.DomainObjectUtils;
-import se.citerus.dddsample.domain.shared.ValueObject;
+import se.citerus.dddsample.common.ValueObject;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingHistory;
 
@@ -102,7 +103,7 @@ public class Delivery implements ValueObject<Delivery> {
    * @return Last known location of the cargo, or Location.UNKNOWN if the delivery history is empty.
    */
   public Location lastKnownLocation() {
-    return DomainObjectUtils.nullSafe(lastKnownLocation, Location.UNKNOWN);
+    return DomainObjectUtils.nullSafe(lastKnownLocation, LocationClient.sampleLocationsGetLocation("UNKNOWN"));
   }
 
   /**
@@ -232,7 +233,7 @@ public class Delivery implements ValueObject<Delivery> {
 
       case LOAD:
         for (Leg leg : itinerary.legs()) {
-          if (leg.loadLocation().sameIdentityAs(lastEvent.location())) {
+          if (LocationClient.locationSameIdentityAs(leg.loadLocation(), lastEvent.location())) {
             return new HandlingActivity(HandlingEvent.Type.UNLOAD, leg.unloadLocation(), leg.voyage());
           }
         }
@@ -242,7 +243,7 @@ public class Delivery implements ValueObject<Delivery> {
       case UNLOAD:
         for (Iterator<Leg> it = itinerary.legs().iterator(); it.hasNext();) {
           final Leg leg = it.next();
-          if (leg.unloadLocation().sameIdentityAs(lastEvent.location())) {
+          if (LocationClient.locationSameIdentityAs(leg.unloadLocation(), lastEvent.location())) {
             if (it.hasNext()) {
               final Leg nextLeg = it.next();
               return new HandlingActivity(HandlingEvent.Type.LOAD, nextLeg.loadLocation(), nextLeg.voyage());
@@ -279,7 +280,7 @@ public class Delivery implements ValueObject<Delivery> {
   private boolean calculateUnloadedAtDestination(RouteSpecification routeSpecification) {
     return lastEvent != null &&
       HandlingEvent.Type.UNLOAD.sameValueAs(lastEvent.type()) &&
-      routeSpecification.destination().sameIdentityAs(lastEvent.location());
+      LocationClient.locationSameIdentityAs(routeSpecification.destination(), lastEvent.location());
   }
 
   private boolean onTrack() {

@@ -1,4 +1,4 @@
-package main.java.com.pathfinder.api;
+package com.pathfinder.api;
 
 import java.rmi.Remote;
 import java.util.List;

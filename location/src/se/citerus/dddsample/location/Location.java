@@ -1,8 +1,8 @@
 package se.citerus.dddsample.location;
 
 import org.apache.commons.lang.Validate;
-import se.citerus.dddsample.client.LocationClient;
-import se.citerus.dddsample.domain.shared.Entity;
+import se.citerus.dddsample.client.CreateLocationRequest;
+import se.citerus.dddsample.common.Entity;
 
 /**
  * A location is our model is stops on a journey, such as cargo
@@ -23,6 +23,12 @@ public final class Location implements Entity<Location> {
   public static final Location UNKNOWN = new Location(
     new UnLocode("XXXXX"), "Unknown location"
   );
+
+  // TODO Maybe always introduce a constructor from proto to the POJO for deserialization?
+  public Location(se.citerus.dddsample.client.Location locationProto) {
+    this.unLocode = new UnLocode(locationProto.getUnLocode());
+    this.name = locationProto.getName();
+  }
 
   /**
    * Package-level constructor, visible for test only.

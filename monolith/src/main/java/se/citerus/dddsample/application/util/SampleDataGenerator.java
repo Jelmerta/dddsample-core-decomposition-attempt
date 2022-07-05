@@ -9,6 +9,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
 import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.common.CannotCreateHandlingEventException;
 import se.citerus.dddsample.domain.model.cargo.*;
 import se.citerus.dddsample.domain.model.handling.*;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
@@ -163,6 +164,9 @@ public class SampleDataGenerator {
         executeUpdate(jdbcTemplate, cargoSql, cargoArgs);
     }
 
+    // TODO Oh boy... This database is not easily found or extracted... and leads to errors:
+    // nested exception is org.hibernate.MappingException: class main.java.domain.Location not found while looking for property: id
+    // I feel like for now this should be up to the developer to move this part to the new service as well.
     private static void loadLocationData(JdbcTemplate jdbcTemplate) {
         String locationSql =
                 "insert into Location (id, unlocode, name) " +
@@ -228,6 +232,11 @@ public class SampleDataGenerator {
                 session.save(HELSINKI_TO_HONGKONG);
                 session.save(DALLAS_TO_HELSINKI_ALT);
 
+                Location HONGKONG = LocationClient.sampleLocationsGetLocation("HONGKONG");
+                Location HELSINKI = LocationClient.sampleLocationsGetLocation("HELSINKI");
+                Location NEWYORK = LocationClient.sampleLocationsGetLocation("NEWYORK");
+                Location DALLAS = LocationClient.sampleLocationsGetLocation("DALLAS");
+
                 RouteSpecification routeSpecification = new RouteSpecification(HONGKONG, HELSINKI, toDate("2009-03-15"));
                 TrackingId trackingId = new TrackingId("ABC123");
                 Cargo abc123 = new Cargo(trackingId, routeSpecification);
@@ -243,17 +252,17 @@ public class SampleDataGenerator {
 
                 try {
                     HandlingEvent event1 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-01"), trackingId, null, HONGKONG.unLocode(), HandlingEvent.Type.RECEIVE
+                            new Date(), toDate("2009-03-01"), trackingId, null, HONGKONG.getUnLocode(), HandlingEvent.Type.RECEIVE
                     );
                     session.save(event1);
 
                     HandlingEvent event2 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-02"), trackingId, HONGKONG_TO_NEW_YORK.voyageNumber(), HONGKONG.unLocode(), HandlingEvent.Type.LOAD
+                            new Date(), toDate("2009-03-02"), trackingId, HONGKONG_TO_NEW_YORK.voyageNumber(), HONGKONG.getUnLocode(), HandlingEvent.Type.LOAD
                     );
                     session.save(event2);
 
                     HandlingEvent event3 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-05"), trackingId, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.unLocode(), HandlingEvent.Type.UNLOAD
+                            new Date(), toDate("2009-03-05"), trackingId, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.getUnLocode(), HandlingEvent.Type.UNLOAD
                     );
                     session.save(event3);
                 } catch (CannotCreateHandlingEventException e) {
@@ -267,6 +276,8 @@ public class SampleDataGenerator {
 
                 // Cargo JKL567
 
+                Location HANGZOU = LocationClient.sampleLocationsGetLocation("HANGZOU");
+                Location STOCKHOLM = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
                 RouteSpecification routeSpecification1 = new RouteSpecification(HANGZOU, STOCKHOLM, toDate("2009-03-18"));
                 TrackingId trackingId1 = new TrackingId("JKL567");
                 Cargo jkl567 = new Cargo(trackingId1, routeSpecification1);
@@ -282,22 +293,22 @@ public class SampleDataGenerator {
 
                 try {
                     HandlingEvent event1 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-01"), trackingId1, null, HANGZOU.unLocode(), HandlingEvent.Type.RECEIVE
+                            new Date(), toDate("2009-03-01"), trackingId1, null, HANGZOU.getUnLocode(), HandlingEvent.Type.RECEIVE
                     );
                     session.save(event1);
 
                     HandlingEvent event2 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-03"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), HANGZOU.unLocode(), HandlingEvent.Type.LOAD
+                            new Date(), toDate("2009-03-03"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), HANGZOU.getUnLocode(), HandlingEvent.Type.LOAD
                     );
                     session.save(event2);
 
                     HandlingEvent event3 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-05"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.unLocode(), HandlingEvent.Type.UNLOAD
+                            new Date(), toDate("2009-03-05"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.getUnLocode(), HandlingEvent.Type.UNLOAD
                     );
                     session.save(event3);
 
                     HandlingEvent event4 = handlingEventFactory.createHandlingEvent(
-                            new Date(), toDate("2009-03-06"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.unLocode(), HandlingEvent.Type.LOAD
+                            new Date(), toDate("2009-03-06"), trackingId1, HONGKONG_TO_NEW_YORK.voyageNumber(), NEWYORK.getUnLocode(), HandlingEvent.Type.LOAD
                     );
                     session.save(event4);
 

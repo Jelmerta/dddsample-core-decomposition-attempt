@@ -1,6 +1,6 @@
 package se.citerus.dddsample.domain.model.handling;
 
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -9,7 +9,7 @@ import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.shared.DomainEvent;
 import se.citerus.dddsample.domain.shared.DomainObjectUtils;
-import se.citerus.dddsample.domain.shared.ValueObject;
+import se.citerus.dddsample.common.ValueObject;
 
 import java.util.Date;
 
@@ -19,7 +19,7 @@ import java.util.Date;
  * <p/>
  * The HandlingEvent's are sent from different Incident Logging Applications
  * some time after the event occurred and contain information about the
- * {@link TrackingId}, {@link main.java.domain.Location}, timestamp of the completion of the event,
+ * {@link TrackingId}, {@link Location}, timestamp of the completion of the event,
  * and possibly, if applicable a {@link Voyage}.
  * <p/>
  * This class is the only member, and consequently the root, of the HandlingEvent aggregate. 
@@ -205,7 +205,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
     final StringBuilder builder = new StringBuilder("\n--- Handling event ---\n").
       append("Cargo: ").append(cargo.trackingId()).append("\n").
       append("Type: ").append(type).append("\n").
-      append("Location: ").append(location.name()).append("\n").
+      append("Location: ").append(location.getName()).append("\n").
       append("Completed on: ").append(completionTime).append("\n").
       append("Registered on: ").append(registrationTime).append("\n");
     

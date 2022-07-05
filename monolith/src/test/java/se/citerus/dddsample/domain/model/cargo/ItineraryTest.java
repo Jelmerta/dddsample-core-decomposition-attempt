@@ -2,13 +2,6 @@ package se.citerus.dddsample.domain.model.cargo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static se.citerus.dddsample.location.SampleLocations.GOTHENBURG;
-import static se.citerus.dddsample.location.SampleLocations.HANGZOU;
-import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
-import static se.citerus.dddsample.location.SampleLocations.NEWYORK;
-import static se.citerus.dddsample.location.SampleLocations.ROTTERDAM;
-import static se.citerus.dddsample.location.SampleLocations.SHANGHAI;
-import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,29 +11,30 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.voyage.CarrierMovement;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 
 public class ItineraryTest {
-  private final CarrierMovement abc = new CarrierMovement(SHANGHAI, ROTTERDAM, new Date(), new Date());
-  private final CarrierMovement def = new CarrierMovement(ROTTERDAM, GOTHENBURG, new Date(), new Date());
-  private final CarrierMovement ghi = new CarrierMovement(ROTTERDAM, NEWYORK, new Date(), new Date());
-  private final CarrierMovement jkl = new CarrierMovement(SHANGHAI, HELSINKI, new Date(), new Date());
+  private final CarrierMovement abc = new CarrierMovement(LocationClient.sampleLocationsGetLocation("SHANGHAI"), LocationClient.sampleLocationsGetLocation("ROTTERDAM"), new Date(), new Date());
+  private final CarrierMovement def = new CarrierMovement(LocationClient.sampleLocationsGetLocation("ROTTERDAM"), LocationClient.sampleLocationsGetLocation("GOTHENBURG"), new Date(), new Date());
+  private final CarrierMovement ghi = new CarrierMovement(LocationClient.sampleLocationsGetLocation("ROTTERDAM"), LocationClient.sampleLocationsGetLocation("NEWYORK"), new Date(), new Date());
+  private final CarrierMovement jkl = new CarrierMovement(LocationClient.sampleLocationsGetLocation("SHANGHAI"), LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date(), new Date());
 
   Voyage voyage, wrongVoyage;
 
   @Before
   public void setUp() {
-    voyage = new Voyage.Builder(new VoyageNumber("0123"), SHANGHAI).
-      addMovement(ROTTERDAM, new Date(), new Date()).
-      addMovement(GOTHENBURG, new Date(), new Date()).
+    voyage = new Voyage.Builder(new VoyageNumber("0123"), LocationClient.sampleLocationsGetLocation("SHANGHAI")).
+      addMovement(LocationClient.sampleLocationsGetLocation("ROTTERDAM"), new Date(), new Date()).
+      addMovement(LocationClient.sampleLocationsGetLocation("GOTHENBURG"), new Date(), new Date()).
       build();
 
-    wrongVoyage = new Voyage.Builder(new VoyageNumber("666"), NEWYORK).
-      addMovement(STOCKHOLM, new Date(), new Date()).
-      addMovement(HELSINKI, new Date(), new Date()).
+    wrongVoyage = new Voyage.Builder(new VoyageNumber("666"), LocationClient.sampleLocationsGetLocation("NEWYORK")).
+      addMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), new Date(), new Date()).
+      addMovement(LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date(), new Date()).
       build();
   }
 
@@ -48,52 +42,52 @@ public class ItineraryTest {
   public void testCargoOnTrack() {
 
     TrackingId trackingId = new TrackingId("CARGO1");
-    RouteSpecification routeSpecification = new RouteSpecification(SHANGHAI, GOTHENBURG, new Date());
+    RouteSpecification routeSpecification = new RouteSpecification(LocationClient.sampleLocationsGetLocation("SHANGHAI"), LocationClient.sampleLocationsGetLocation("GOTHENBURG"), new Date());
     Cargo cargo = new Cargo(trackingId, routeSpecification);
 
     Itinerary itinerary = new Itinerary(
       Arrays.asList(
-        new Leg(voyage, SHANGHAI, ROTTERDAM, new Date(), new Date()),
-        new Leg(voyage, ROTTERDAM, GOTHENBURG, new Date(), new Date())
+        new Leg(voyage, LocationClient.sampleLocationsGetLocation("SHANGHAI"), LocationClient.sampleLocationsGetLocation("ROTTERDAM"), new Date(), new Date()),
+        new Leg(voyage, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), LocationClient.sampleLocationsGetLocation("GOTHENBURG"), new Date(), new Date())
       )
     );
 
     //Happy path
-    HandlingEvent event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.RECEIVE, SHANGHAI);
+    HandlingEvent event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.RECEIVE, LocationClient.sampleLocationsGetLocation("SHANGHAI"));
     assertThat(itinerary.isExpected(event)).isTrue();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, SHANGHAI, voyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("SHANGHAI"), voyage);
     assertThat(itinerary.isExpected(event)).isTrue();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, ROTTERDAM, voyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), voyage);
     assertThat(itinerary.isExpected(event)).isTrue();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, ROTTERDAM, voyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), voyage);
     assertThat(itinerary.isExpected(event)).isTrue();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, GOTHENBURG, voyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("GOTHENBURG"), voyage);
     assertThat(itinerary.isExpected(event)).isTrue();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CLAIM, GOTHENBURG);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CLAIM, LocationClient.sampleLocationsGetLocation("GOTHENBURG"));
     assertThat(itinerary.isExpected(event)).isTrue();
 
     //Customs event changes nothing
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CUSTOMS, GOTHENBURG);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CUSTOMS, LocationClient.sampleLocationsGetLocation("GOTHENBURG"));
     assertThat(itinerary.isExpected(event)).isTrue();
 
     //Received at the wrong location
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.RECEIVE, HANGZOU);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.RECEIVE, LocationClient.sampleLocationsGetLocation("HANGZOU"));
     assertThat(itinerary.isExpected(event)).isFalse();
 
     //Loaded to onto the wrong ship, correct location
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, ROTTERDAM, wrongVoyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), wrongVoyage);
     assertThat(itinerary.isExpected(event)).isFalse();
 
     //Unloaded from the wrong ship in the wrong location
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, HELSINKI, wrongVoyage);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("HELSINKI"), wrongVoyage);
     assertThat(itinerary.isExpected(event)).isFalse();
 
-    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CLAIM, ROTTERDAM);
+    event = new HandlingEvent(cargo, new Date(), new Date(), HandlingEvent.Type.CLAIM, LocationClient.sampleLocationsGetLocation("ROTTERDAM"));
     assertThat(itinerary.isExpected(event)).isFalse();
 
   }

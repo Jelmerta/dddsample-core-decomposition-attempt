@@ -1,12 +1,13 @@
 package se.citerus.dddsample.domain.model.handling;
 
-import se.citerus.dddsample.location.Location;
-import se.citerus.dddsample.location.UnknownLocationException;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.UnLocode;
+import se.citerus.dddsample.common.CannotCreateHandlingEventException;
+import se.citerus.dddsample.common.UnknownLocationException;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -77,7 +78,13 @@ public class HandlingEventFactory {
 
     return voyage;
   }
-  
+
+  // UnknownLocationException now lives in Location... Only place it is used is outside of Location service, so probably a bad cut.
+  // Still have to deal with this though.
+  // Maybe change it to a runtime exception and a warning message when converting?
+  // Or make a copy...?
+  // Or common module
+  // TODO For now common module seems easiest...
   private Location findLocation(final UnLocode unlocode) throws UnknownLocationException {
     final Location location = locationRepository.find(unlocode);
     if (location == null) {

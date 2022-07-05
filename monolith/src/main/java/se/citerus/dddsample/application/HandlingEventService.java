@@ -1,9 +1,9 @@
 package se.citerus.dddsample.application;
 
+import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.handling.CannotCreateHandlingEventException;
+import se.citerus.dddsample.common.CannotCreateHandlingEventException;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 
 import java.util.Date;

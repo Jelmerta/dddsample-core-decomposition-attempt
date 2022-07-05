@@ -1,5 +1,5 @@
 
-package main.java.com.aggregator;
+package com.aggregator;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;

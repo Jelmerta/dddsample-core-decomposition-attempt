@@ -1,4 +1,4 @@
-package se.citerus.dddsample.domain.model.handling;
+package se.citerus.dddsample.common;
 
 /**
  * If a {@link HandlingEvent} can't be

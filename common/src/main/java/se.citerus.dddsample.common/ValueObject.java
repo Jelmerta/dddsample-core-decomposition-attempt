@@ -1,4 +1,4 @@
-package se.citerus.dddsample.domain.shared;
+package se.citerus.dddsample.common;
 
 import java.io.Serializable;
 

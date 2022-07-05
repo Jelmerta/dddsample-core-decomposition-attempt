@@ -28,6 +28,14 @@ message CreateUnLocodeResponse {
   UnLocode unLocode = 1;
 }
 
+message SampleLocationsGetLocationRequest {
+  string name = 1;
+}
+
+message SampleLocationsGetLocationResponse {
+  Location location = 1;
+}
+
 message SampleLocationsGetAllRequest {
 
 }
@@ -36,10 +44,22 @@ message SampleLocationsGetAllResponse {
   repeated Location locations = 1;
 }
 
+message LocationSameIdentityAsRequest {
+  Location this = 1;
+  Location location = 2;
+}
+
+message LocationSameIdentityAsResponse {
+  bool boolean = 1; // TODO unnamed? we can consider how to name this, maybe function name? (isSameIdentityAs would work well for boolean here...?)
+}
+
 // TODO A smarter service would not have different calls for createUnlocode and Location as usually during Location create you also create Unlocode. Fine for now?
 service LocationService {
   rpc CreateLocation(CreateLocationRequest) returns (CreateLocationResponse);
   rpc CreateUnLocode(CreateUnLocodeRequest) returns (CreateUnLocodeResponse);
 
+  rpc LocationSameIdentityAs(LocationSameIdentityAsRequest) returns (LocationSameIdentityAsResponse);
+
+  rpc SampleLocationsGetLocation(SampleLocationsGetLocationRequest) returns (SampleLocationsGetLocationResponse);
   rpc SampleLocationsGetAll(SampleLocationsGetAllRequest) returns (SampleLocationsGetAllResponse);
 }

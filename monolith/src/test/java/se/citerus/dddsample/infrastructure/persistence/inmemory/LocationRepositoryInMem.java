@@ -1,17 +1,17 @@
 package se.citerus.dddsample.infrastructure.persistence.inmemory;
 
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.SampleLocations;
-import se.citerus.dddsample.location.UnLocode;
 
 import java.util.List;
 
 public class LocationRepositoryInMem implements LocationRepository {
 
   public Location find(UnLocode unLocode) {
-    for (Location location : SampleLocations.getAll()) {
-      if (location.unLocode().equals(unLocode)) {
+    for (Location location : LocationClient.SampleLocationsGetAll()) {
+      if (location.getUnLocode().equals(unLocode)) {
         return location;
       }
     }
@@ -19,7 +19,7 @@ public class LocationRepositoryInMem implements LocationRepository {
   }
 
   public List<Location> findAll() {
-    return SampleLocations.getAll();
+    return LocationClient.SampleLocationsGetAll();
   }
   
 }

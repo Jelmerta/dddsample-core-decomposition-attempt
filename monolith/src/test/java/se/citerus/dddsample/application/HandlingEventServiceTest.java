@@ -5,9 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static se.citerus.dddsample.location.SampleLocations.HAMBURG;
-import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
-import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.Date;
@@ -17,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import se.citerus.dddsample.application.impl.HandlingEventServiceImpl;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
@@ -35,7 +33,7 @@ public class HandlingEventServiceTest {
   private HandlingEventRepository handlingEventRepository;
   private LocationRepository locationRepository;
 
-  private final Cargo cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(HAMBURG, TOKYO, new Date()));
+  private final Cargo cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HAMBURG"), LocationClient.sampleLocationsGetLocation("TOKYO"), new Date()));
 
   @Before
   public void setUp() {
@@ -59,9 +57,9 @@ public class HandlingEventServiceTest {
   public void testRegisterEvent() throws Exception {
     when(cargoRepository.find(cargo.trackingId())).thenReturn(cargo);
     when(voyageRepository.find(CM001.voyageNumber())).thenReturn(CM001);
-    when(locationRepository.find(STOCKHOLM.unLocode())).thenReturn(STOCKHOLM);
+    when(locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode())).thenReturn(LocationClient.sampleLocationsGetLocation("STOCKHOLM"));
 
-    service.registerHandlingEvent(new Date(), cargo.trackingId(), CM001.voyageNumber(), STOCKHOLM.unLocode(), HandlingEvent.Type.LOAD);
+    service.registerHandlingEvent(new Date(), cargo.trackingId(), CM001.voyageNumber(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode(), HandlingEvent.Type.LOAD);
   }
 
 }

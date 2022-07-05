@@ -1,5 +1,6 @@
 package se.citerus.dddsample.domain.model.handling;
 
+import se.citerus.dddsample.common.CannotCreateHandlingEventException;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 
 /**

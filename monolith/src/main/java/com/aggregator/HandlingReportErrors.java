@@ -1,5 +1,5 @@
 
-package main.java.com.aggregator;
+package com.aggregator;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -1,10 +1,11 @@
 package se.citerus.dddsample.domain.model.location;
 
-import se.citerus.dddsample.location.Location;
-import se.citerus.dddsample.location.UnLocode;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.UnLocode;
 
 import java.util.List;
 
+// TODO Odd how this one was not found... Still have to deal with that though.
 public interface LocationRepository {
 
   /**

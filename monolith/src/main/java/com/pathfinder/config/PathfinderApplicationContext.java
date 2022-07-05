@@ -1,9 +1,9 @@
-package main.java.com.pathfinder.config;
+package com.pathfinder.config;
 
-import main.java.com.pathfinder.api.GraphTraversalService;
-import main.java.com.pathfinder.internal.GraphDAO;
-import main.java.com.pathfinder.internal.GraphDAOStub;
-import main.java.com.pathfinder.internal.GraphTraversalServiceImpl;
+import com.pathfinder.api.GraphTraversalService;
+import com.pathfinder.internal.GraphDAO;
+import com.pathfinder.internal.GraphDAOStub;
+import com.pathfinder.internal.GraphTraversalServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

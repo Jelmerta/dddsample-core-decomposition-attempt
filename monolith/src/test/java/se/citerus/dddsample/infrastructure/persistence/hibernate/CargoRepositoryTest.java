@@ -3,11 +3,6 @@ package se.citerus.dddsample.infrastructure.persistence.hibernate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.LOAD;
 import static se.citerus.dddsample.domain.model.handling.HandlingEvent.Type.RECEIVE;
-import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
-import static se.citerus.dddsample.location.SampleLocations.HONGKONG;
-import static se.citerus.dddsample.location.SampleLocations.MELBOURNE;
-import static se.citerus.dddsample.location.SampleLocations.STOCKHOLM;
-import static se.citerus.dddsample.location.SampleLocations.TOKYO;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM004;
 
 import java.lang.reflect.Field;
@@ -32,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import se.citerus.dddsample.application.util.SampleDataGenerator;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
@@ -40,9 +37,7 @@ import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -85,9 +80,9 @@ public class CargoRepositoryTest {
     public void testFindByCargoId() {
         final TrackingId trackingId = new TrackingId("FGH");
         final Cargo cargo = cargoRepository.find(trackingId);
-        assertThat(cargo.origin()).isEqualTo(STOCKHOLM);
-        assertThat(cargo.routeSpecification().origin()).isEqualTo(HONGKONG);
-        assertThat(cargo.routeSpecification().destination()).isEqualTo(HELSINKI);
+        assertThat(cargo.origin()).isEqualTo(LocationClient.sampleLocationsGetLocation("STOCKHOLM"));
+        assertThat(cargo.routeSpecification().origin()).isEqualTo(LocationClient.sampleLocationsGetLocation("HONGKONG"));
+        assertThat(cargo.routeSpecification().destination()).isEqualTo(LocationClient.sampleLocationsGetLocation("HELSINKI"));
 
         assertThat(cargo.delivery()).isNotNull();
 
@@ -95,30 +90,30 @@ public class CargoRepositoryTest {
         assertThat(events).hasSize(2);
 
         HandlingEvent firstEvent = events.get(0);
-        assertHandlingEvent(cargo, firstEvent, RECEIVE, HONGKONG, 100, 160, Voyage.NONE);
+        assertHandlingEvent(cargo, firstEvent, RECEIVE, LocationClient.sampleLocationsGetLocation("HONGKONG"), 100, 160, Voyage.NONE);
 
         HandlingEvent secondEvent = events.get(1);
 
         Voyage hongkongMelbourneTokyoAndBack = new Voyage.Builder(
-                new VoyageNumber("0303"), HONGKONG).
-                addMovement(MELBOURNE, new Date(), new Date()).
-                addMovement(TOKYO, new Date(), new Date()).
-                addMovement(HONGKONG, new Date(), new Date()).
+                new VoyageNumber("0303"), LocationClient.sampleLocationsGetLocation("HONGKONG")).
+                addMovement(LocationClient.sampleLocationsGetLocation("MELBOURNE"), new Date(), new Date()).
+                addMovement(LocationClient.sampleLocationsGetLocation("TOKYO"), new Date(), new Date()).
+                addMovement(LocationClient.sampleLocationsGetLocation("HONGKONG"), new Date(), new Date()).
                 build();
 
-        assertHandlingEvent(cargo, secondEvent, LOAD, HONGKONG, 150, 110, hongkongMelbourneTokyoAndBack);
+        assertHandlingEvent(cargo, secondEvent, LOAD, LocationClient.sampleLocationsGetLocation("HONGKONG"), 150, 110, hongkongMelbourneTokyoAndBack);
 
         List<Leg> legs = cargo.itinerary().legs();
         assertThat(legs).hasSize(3);
 
         Leg firstLeg = legs.get(0);
-        assertLeg(firstLeg, "0101", HONGKONG, MELBOURNE);
+        assertLeg(firstLeg, "0101", LocationClient.sampleLocationsGetLocation("HONGKONG"), LocationClient.sampleLocationsGetLocation("MELBOURNE"));
 
         Leg secondLeg = legs.get(1);
-        assertLeg(secondLeg, "0101", MELBOURNE, STOCKHOLM);
+        assertLeg(secondLeg, "0101", LocationClient.sampleLocationsGetLocation("MELBOURNE"), LocationClient.sampleLocationsGetLocation("STOCKHOLM"));
 
         Leg thirdLeg = legs.get(2);
-        assertLeg(thirdLeg, "0101", STOCKHOLM, HELSINKI);
+        assertLeg(thirdLeg, "0101", LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("HELSINKI"));
     }
 
     private void assertHandlingEvent(Cargo cargo, HandlingEvent event, HandlingEvent.Type expectedEventType, Location expectedLocation, int completionTimeMs, int registrationTimeMs, Voyage voyage) {
@@ -149,8 +144,8 @@ public class CargoRepositoryTest {
     @Test
     public void testSave() {
         TrackingId trackingId = new TrackingId("AAA");
-        Location origin = locationRepository.find(STOCKHOLM.unLocode());
-        Location destination = locationRepository.find(MELBOURNE.unLocode());
+        Location origin = locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode());
+        Location destination = locationRepository.find(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode());
 
         Cargo cargo = new Cargo(trackingId, new RouteSpecification(origin, destination, new Date()));
         cargoRepository.store(cargo);
@@ -158,8 +153,8 @@ public class CargoRepositoryTest {
         cargo.assignToRoute(new Itinerary(Collections.singletonList(
                 new Leg(
                         voyageRepository.find(new VoyageNumber("0101")),
-                        locationRepository.find(STOCKHOLM.unLocode()),
-                        locationRepository.find(MELBOURNE.unLocode()),
+                        locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode()),
+                        locationRepository.find(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode()),
                         new Date(), new Date())
         )));
 

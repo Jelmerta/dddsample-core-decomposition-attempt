@@ -1,4 +1,4 @@
-package main.java.com.pathfinder.internal;
+package com.pathfinder.internal;
 
 import java.util.ArrayList;
 import java.util.Arrays;

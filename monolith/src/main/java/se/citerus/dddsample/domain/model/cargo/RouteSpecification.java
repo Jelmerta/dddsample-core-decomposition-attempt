@@ -1,12 +1,12 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.client.Location;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.shared.AbstractSpecification;
-import se.citerus.dddsample.domain.shared.ValueObject;
-import se.citerus.dddsample.location.Location;
+import se.citerus.dddsample.common.ValueObject;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ public class RouteSpecification extends AbstractSpecification<Itinerary> impleme
     Validate.notNull(origin, "Origin is required");
     Validate.notNull(destination, "Destination is required");
     Validate.notNull(arrivalDeadline, "Arrival deadline is required");
-    Validate.isTrue(!origin.sameIdentityAs(destination), "Origin and destination can't be the same: " + origin);
+    Validate.isTrue(!LocationClient.locationSameIdentityAs(origin, destination), "Origin and destination can't be the same: " + origin);
 
     this.origin = origin;
     this.destination = destination;
@@ -61,8 +61,8 @@ public class RouteSpecification extends AbstractSpecification<Itinerary> impleme
   @Override
   public boolean isSatisfiedBy(final Itinerary itinerary) {
     return itinerary != null &&
-           origin().sameIdentityAs(itinerary.initialDepartureLocation()) &&
-           destination().sameIdentityAs(itinerary.finalArrivalLocation()) &&
+           LocationClient.locationSameIdentityAs(origin(), itinerary.initialDepartureLocation()) &&
+           LocationClient.locationSameIdentityAs(destination(), itinerary.finalArrivalLocation()) &&
            arrivalDeadline().after(itinerary.finalArrivalDate());
   }
 

@@ -1,8 +1,6 @@
 package se.citerus.dddsample.interfaces.tracking;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static se.citerus.dddsample.location.SampleLocations.HANGZOU;
-import static se.citerus.dddsample.location.SampleLocations.HELSINKI;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.ArrayList;
@@ -15,6 +13,7 @@ import java.util.TimeZone;
 import org.junit.Test;
 import org.springframework.context.support.StaticApplicationContext;
 
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
@@ -25,13 +24,13 @@ public class CargoTrackingViewAdapterTest {
 
   @Test
   public void testCreate() {
-    Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(HANGZOU, HELSINKI, new Date()));
+    Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HANGZOU"), LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date()));
 
     List<HandlingEvent> events = new ArrayList<HandlingEvent>();
-    events.add(new HandlingEvent(cargo, new Date(1), new Date(2), HandlingEvent.Type.RECEIVE, HANGZOU));
+    events.add(new HandlingEvent(cargo, new Date(1), new Date(2), HandlingEvent.Type.RECEIVE, LocationClient.sampleLocationsGetLocation("HANGZOU")));
 
-    events.add(new HandlingEvent(cargo, new Date(3), new Date(4), HandlingEvent.Type.LOAD, HANGZOU, CM001));
-    events.add(new HandlingEvent(cargo, new Date(5), new Date(6), HandlingEvent.Type.UNLOAD, HELSINKI, CM001));
+    events.add(new HandlingEvent(cargo, new Date(3), new Date(4), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("HANGZOU"), CM001));
+    events.add(new HandlingEvent(cargo, new Date(5), new Date(6), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("HELSINKI"), CM001));
 
     cargo.deriveDeliveryProgress(new HandlingHistory(events));
 

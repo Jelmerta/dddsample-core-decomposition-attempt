@@ -3,7 +3,8 @@ package se.citerus.dddsample.domain.model.location;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-import se.citerus.dddsample.location.UnLocode;
+import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.client.UnLocode;
 import org.junit.Test;
 
 public class UnLocodeTest {
@@ -26,7 +27,7 @@ public class UnLocodeTest {
 
   @Test
   public void testIdString() {
-    assertThat(LocationClient.createUnLocode("AbcDe").idString()).isEqualTo("ABCDE");
+    assertThat(LocationClient.createUnLocode("AbcDe").getUnlocode()).isEqualTo("ABCDE");
   }
 
   @Test

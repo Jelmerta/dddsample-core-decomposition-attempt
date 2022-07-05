@@ -1,6 +1,6 @@
-package se.citerus.dddsample.location;
+package se.citerus.dddsample.common;
 
-import se.citerus.dddsample.domain.model.handling.CannotCreateHandlingEventException;
+import se.citerus.dddsample.client.UnLocode;
 
 // TODO Circular dependency. Requires monolith to extend CannotCreateHandlingEventException
 public class UnknownLocationException extends CannotCreateHandlingEventException {
@@ -13,6 +13,6 @@ public class UnknownLocationException extends CannotCreateHandlingEventException
 
   @Override
   public String getMessage() {
-    return "No location with UN locode " + unlocode.idString() + " exists in the system";
+    return "No location with UN locode " + unlocode.getUnlocode() + " exists in the system";
   }
 }

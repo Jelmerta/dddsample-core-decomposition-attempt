@@ -18,19 +18,19 @@ public class LocationClient {
 
     // TODO Not sure about static, maybe a singleton?
     // TODO createLocation only used in Location service now, so no outside dependency and therefore not required?
-    public static CreateLocationResponse createLocation(UnLocode unLocode, String name) {
+    public static Location createLocation(UnLocode unLocode, String name) {
         CreateLocationRequest request = CreateLocationRequest.newBuilder()
                 .setUnLocode(unLocode)
                 .setName(name)
                 .build();
-        return stub.createLocation(request);
+        return stub.createLocation(request).getLocation();
     }
 
-    public static CreateUnLocodeResponse createUnLocode(String unlocode) {
+    public static UnLocode createUnLocode(String unlocode) {
         CreateUnLocodeRequest request = CreateUnLocodeRequest.newBuilder()
                 .setUnlocode(unlocode)
                 .build();
-        return stub.createUnLocode(request);
+        return stub.createUnLocode(request).getUnLocode();
     }
 
     public static List<Location> SampleLocationsGetAll() {
@@ -39,5 +39,22 @@ public class LocationClient {
 
         // TODO Return response or the list...?
         return stub.sampleLocationsGetAll(request).getLocationsList();
+    }
+
+    public static Location sampleLocationsGetLocation(String name) {
+        SampleLocationsGetLocationRequest request = SampleLocationsGetLocationRequest.newBuilder()
+                .setName(name)
+                .build();
+
+        return stub.sampleLocationsGetLocation(request).getLocation();
+    }
+
+    public static boolean locationSameIdentityAs(Location thisLocation, Location location) {
+        LocationSameIdentityAsRequest request = LocationSameIdentityAsRequest.newBuilder()
+                .setThis(thisLocation)
+                .setLocation(location)
+                .build();
+
+        return stub.locationSameIdentityAs(request).getBoolean();
     }
 }

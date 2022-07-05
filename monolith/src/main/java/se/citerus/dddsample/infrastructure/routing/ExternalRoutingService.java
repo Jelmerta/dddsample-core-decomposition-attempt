@@ -1,16 +1,16 @@
 package se.citerus.dddsample.infrastructure.routing;
 
-import main.java.com.pathfinder.api.GraphTraversalService;
-import main.java.com.pathfinder.api.TransitEdge;
-import main.java.com.pathfinder.api.TransitPath;
+import com.pathfinder.api.GraphTraversalService;
+import com.pathfinder.api.TransitEdge;
+import com.pathfinder.api.TransitPath;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
-import se.citerus.dddsample.location.Location;
 import se.citerus.dddsample.domain.model.location.LocationRepository;
-import se.citerus.dddsample.location.UnLocode;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
@@ -44,8 +44,8 @@ public class ExternalRoutingService implements RoutingService {
 
     final List<TransitPath> transitPaths;
     transitPaths = graphTraversalService.findShortestPath(
-      origin.unLocode().idString(),
-      destination.unLocode().idString(),
+      origin.getUnLocode().getUnlocode(),
+      destination.getUnLocode().getUnlocode(),
       limitations
     );
 
