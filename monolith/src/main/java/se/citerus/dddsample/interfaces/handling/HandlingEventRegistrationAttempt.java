@@ -24,14 +24,14 @@ public final class HandlingEventRegistrationAttempt implements Serializable {
   private final TrackingId trackingId;
   private final VoyageNumber voyageNumber;
   private final HandlingEvent.Type type;
-  private final UnLocode unLocode;
+  private final String unLocode;
 
   public HandlingEventRegistrationAttempt(final Date registrationDate,
                                           final Date completionDate,
                                           final TrackingId trackingId,
                                           final VoyageNumber voyageNumber,
                                           final HandlingEvent.Type type,
-                                          final UnLocode unLocode) {
+                                          final String unLocode) {
     this.registrationTime = registrationDate;
     this.completionTime = completionDate;
     this.trackingId = trackingId;
@@ -56,7 +56,7 @@ public final class HandlingEventRegistrationAttempt implements Serializable {
     return type;
   }
 
-  public UnLocode getUnLocode() {
+  public String getUnLocode() {
     return unLocode;
   }
 

@@ -25,9 +25,10 @@ public class HandlingReportParser {
 
   public static final String ISO_8601_FORMAT = "yyyy-MM-dd HH:mm";
 
-  public static UnLocode parseUnLocode(final String unlocode, final List<String> errors) {
+  // TODO Location service should probably store at this point?
+  public static String parseUnLocode(final String unlocode, final List<String> errors) {
     try {
-      return LocationClient.createUnLocode(unlocode);
+      return LocationClient.createUnLocode(unlocode).getUnlocode();
     } catch (IllegalArgumentException e) {
       errors.add(e.getMessage());
       return null;

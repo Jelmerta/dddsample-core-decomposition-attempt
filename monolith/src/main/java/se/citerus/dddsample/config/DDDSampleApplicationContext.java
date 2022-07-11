@@ -18,7 +18,6 @@ import se.citerus.dddsample.application.util.SampleDataGenerator;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.handling.HandlingEventFactory;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
 import se.citerus.dddsample.infrastructure.routing.ExternalRoutingService;
@@ -33,8 +32,8 @@ public class DDDSampleApplicationContext {
     @Autowired
     CargoRepository cargoRepository;
 
-    @Autowired
-    LocationRepository locationRepository;
+//    @Autowired
+//    LocationRepository locationRepository;
 
     @Autowired
     VoyageRepository voyageRepository;
@@ -62,7 +61,7 @@ public class DDDSampleApplicationContext {
 
     @Bean
     public BookingService bookingService() {
-        return new BookingServiceImpl(cargoRepository, locationRepository, routingService);
+        return new BookingServiceImpl(cargoRepository, routingService);
     }
 
     @Bean
@@ -77,20 +76,20 @@ public class DDDSampleApplicationContext {
 
     @Bean
     public HandlingEventFactory handlingEventFactory() {
-        return new HandlingEventFactory(cargoRepository, voyageRepository, locationRepository);
+        return new HandlingEventFactory(cargoRepository, voyageRepository);//, locationRepository);
     }
 
     @Bean
     public RoutingService routingService() {
         ExternalRoutingService routingService = new ExternalRoutingService();
         routingService.setGraphTraversalService(graphTraversalService);
-        routingService.setLocationRepository(locationRepository);
+//        routingService.setLocationRepository(locationRepository); // TODO....? What happens now that it is missing
         routingService.setVoyageRepository(voyageRepository);
         return routingService;
     }
 
     @Bean
     public SampleDataGenerator sampleDataGenerator() {
-        return new SampleDataGenerator(platformTransactionManager, sessionFactory, cargoRepository, voyageRepository, locationRepository, handlingEventRepository);
+        return new SampleDataGenerator(platformTransactionManager, sessionFactory, cargoRepository, voyageRepository, handlingEventRepository);
     }
 }

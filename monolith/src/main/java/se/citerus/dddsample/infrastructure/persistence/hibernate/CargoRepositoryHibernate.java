@@ -1,6 +1,7 @@
 package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import org.springframework.stereotype.Repository;
+import se.citerus.dddsample.common.HibernateRepository;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;

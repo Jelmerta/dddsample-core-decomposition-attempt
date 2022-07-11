@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -31,7 +32,6 @@ import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(value = {"/main/resources/context-infrastructure-persistence.xml"})
@@ -43,9 +43,6 @@ public class HandlingEventRepositoryTest {
 
     @Autowired
     CargoRepository cargoRepository;
-
-    @Autowired
-    LocationRepository locationRepository;
 
     @Autowired
     SessionFactory sessionFactory;
@@ -66,12 +63,14 @@ public class HandlingEventRepositoryTest {
 
     @Test
     public void testSave() {
-        Location location = locationRepository.find(LocationClient.createUnLocode("SESTO"));
+        Optional<Location> location = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals("SESTO"))
+                .findFirst();
 
         Cargo cargo = cargoRepository.find(new TrackingId("XYZ"));
         Date completionTime = new Date(10);
         Date registrationTime = new Date(20);
-        HandlingEvent event = new HandlingEvent(cargo, completionTime, registrationTime, HandlingEvent.Type.CLAIM, location);
+        HandlingEvent event = new HandlingEvent(cargo, completionTime, registrationTime, HandlingEvent.Type.CLAIM, location.get().getName());
 
         handlingEventRepository.store(event);
 

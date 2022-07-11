@@ -46,9 +46,10 @@
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
 
-  <bean id="locationRepository"
-        class="se.citerus.dddsample.infrastructure.persistence.hibernate.LocationRepositoryHibernate">
-    <property name="sessionFactory" ref="sessionFactory"/>
-  </bean>
+<!--  ??? TODO DO we need to move this over as well to make use of it?-->
+<!--  <bean id="locationRepository"-->
+<!--        class="se.citerus.dddsample.location.LocationRepositoryHibernate">-->
+<!--    <property name="sessionFactory" ref="sessionFactory"/>-->
+<!--  </bean>-->
 
 </beans>

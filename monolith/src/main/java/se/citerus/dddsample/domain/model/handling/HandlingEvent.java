@@ -1,6 +1,7 @@
 package se.citerus.dddsample.domain.model.handling;
 
 import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -33,7 +34,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
 
   private Type type;
   private Voyage voyage;
-  private Location location;
+  private LocationId location;
   private Date completionTime;
   private Date registrationTime;
   private Cargo cargo;
@@ -93,7 +94,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
                        final Date completionTime,
                        final Date registrationTime,
                        final Type type,
-                       final Location location,
+                       final LocationId location,
                        final Voyage voyage) {
     Validate.notNull(cargo, "Cargo is required");
     Validate.notNull(completionTime, "Completion time is required");
@@ -125,7 +126,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
                        final Date completionTime,
                        final Date registrationTime,
                        final Type type,
-                       final Location location) {
+                       final LocationId location) {
     Validate.notNull(cargo, "Cargo is required");
     Validate.notNull(completionTime, "Completion time is required");
     Validate.notNull(registrationTime, "Registration time is required");
@@ -160,7 +161,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
     return new Date(this.registrationTime.getTime());
   }
 
-  public Location location() {
+  public LocationId location() {
     return this.location;
   }
 
@@ -205,7 +206,7 @@ public final class HandlingEvent implements DomainEvent<HandlingEvent> {
     final StringBuilder builder = new StringBuilder("\n--- Handling event ---\n").
       append("Cargo: ").append(cargo.trackingId()).append("\n").
       append("Type: ").append(type).append("\n").
-      append("Location: ").append(location.getName()).append("\n").
+      append("Location: ").append(location).append("\n").
       append("Completed on: ").append(completionTime).append("\n").
       append("Registered on: ").append(registrationTime).append("\n");
     

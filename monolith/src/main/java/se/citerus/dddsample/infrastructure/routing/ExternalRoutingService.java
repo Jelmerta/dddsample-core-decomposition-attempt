@@ -5,12 +5,11 @@ import com.pathfinder.api.TransitEdge;
 import com.pathfinder.api.TransitPath;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
@@ -28,7 +27,7 @@ import java.util.Properties;
 public class ExternalRoutingService implements RoutingService {
 
   private GraphTraversalService graphTraversalService;
-  private LocationRepository locationRepository;
+//  private LocationRepository locationRepository;
   private VoyageRepository voyageRepository;
   private static final Log log = LogFactory.getLog(ExternalRoutingService.class);
 
@@ -36,16 +35,16 @@ public class ExternalRoutingService implements RoutingService {
     /*
       The RouteSpecification is picked apart and adapted to the external API.
      */
-    final Location origin = routeSpecification.origin();
-    final Location destination = routeSpecification.destination();
+    final LocationId origin = routeSpecification.origin();
+    final LocationId destination = routeSpecification.destination();
 
     final Properties limitations = new Properties();
     limitations.setProperty("DEADLINE", routeSpecification.arrivalDeadline().toString());
 
     final List<TransitPath> transitPaths;
     transitPaths = graphTraversalService.findShortestPath(
-      origin.getUnLocode().getUnlocode(),
-      destination.getUnLocode().getUnlocode(),
+      LocationClient.sampleLocationsGetLocation(origin.idString()).getUnLocode().getUnlocode(),
+      LocationClient.sampleLocationsGetLocation(destination.idString()).getUnLocode().getUnlocode(),
       limitations
     );
 
@@ -78,8 +77,9 @@ public class ExternalRoutingService implements RoutingService {
   private Leg toLeg(TransitEdge edge) {
     return new Leg(
       voyageRepository.find(new VoyageNumber(edge.getEdge())),
-      locationRepository.find(LocationClient.createUnLocode(edge.getFromNode())),
-      locationRepository.find(LocationClient.createUnLocode(edge.getToNode())),
+            // TODO Very ugly human solution, just want to get it working.
+            new LocationId(LocationClient.sampleLocationsGetAll().stream().filter(l -> l.getUnLocode().getUnlocode().equals(edge.getFromNode())).findFirst().orElseThrow(IllegalArgumentException::new).getName()),
+            new LocationId(LocationClient.sampleLocationsGetAll().stream().filter(l -> l.getUnLocode().getUnlocode().equals(edge.getToNode())).findFirst().orElseThrow(IllegalArgumentException::new).getName()),
       edge.getFromDate(), edge.getToDate()
     );
   }
@@ -88,9 +88,10 @@ public class ExternalRoutingService implements RoutingService {
     this.graphTraversalService = graphTraversalService;
   }
 
-  public void setLocationRepository(LocationRepository locationRepository) {
-    this.locationRepository = locationRepository;
-  }
+  // TODO Now what when this is missing?...
+//  public void setLocationRepository(LocationRepository locationRepository) {
+//    this.locationRepository = locationRepository;
+//  }
 
   public void setVoyageRepository(VoyageRepository voyageRepository) {
     this.voyageRepository = voyageRepository;

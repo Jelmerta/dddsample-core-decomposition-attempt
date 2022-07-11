@@ -26,14 +26,14 @@ public class HandlingHistoryTest {
 
   @Before
   public void setUp() {
-    cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("SHANGHAI"), LocationClient.sampleLocationsGetLocation("DALLAS"), toDate("2009-04-01")));
-    voyage = new Voyage.Builder(new VoyageNumber("X25"), LocationClient.sampleLocationsGetLocation("HONGKONG")).
-      addMovement(LocationClient.sampleLocationsGetLocation("SHANGHAI"), new Date(), new Date()).
-      addMovement(LocationClient.sampleLocationsGetLocation("DALLAS"), new Date(), new Date()).
+    cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), LocationClient.sampleLocationsGetLocation("DALLAS").getName(), toDate("2009-04-01")));
+    voyage = new Voyage.Builder(new VoyageNumber("X25"), LocationClient.sampleLocationsGetLocation("HONGKONG").getName()).
+      addMovement(LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), new Date(), new Date()).
+      addMovement(LocationClient.sampleLocationsGetLocation("DALLAS").getName(), new Date(), new Date()).
       build();
-    event1 = new HandlingEvent(cargo, toDate("2009-03-05"), new Date(100), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("SHANGHAI"), voyage);
-    event1duplicate = new HandlingEvent(cargo, toDate("2009-03-05"), new Date(200), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("SHANGHAI"), voyage);
-    event2 = new HandlingEvent(cargo, toDate("2009-03-10"), new Date(150), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("DALLAS"), voyage);
+    event1 = new HandlingEvent(cargo, toDate("2009-03-05"), new Date(100), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), voyage);
+    event1duplicate = new HandlingEvent(cargo, toDate("2009-03-05"), new Date(200), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), voyage);
+    event2 = new HandlingEvent(cargo, toDate("2009-03-10"), new Date(150), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("DALLAS").getName(), voyage);
 
     handlingHistory = new HandlingHistory(asList(event2, event1, event1duplicate));
   }

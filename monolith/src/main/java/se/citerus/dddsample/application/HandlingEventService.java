@@ -1,6 +1,5 @@
 package se.citerus.dddsample.application;
 
-import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.common.CannotCreateHandlingEventException;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
@@ -29,7 +28,7 @@ public interface HandlingEventService {
   void registerHandlingEvent(Date completionTime,
                              TrackingId trackingId,
                              VoyageNumber voyageNumber,
-                             UnLocode unLocode,
+                             String unLocode,
                              HandlingEvent.Type type) throws CannotCreateHandlingEventException;
 
 }

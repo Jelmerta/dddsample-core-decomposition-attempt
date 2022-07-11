@@ -3,6 +3,7 @@ package se.citerus.dddsample.infrastructure.persistence.hibernate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -21,15 +22,11 @@ import se.citerus.dddsample.application.util.SampleDataGenerator;
 import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.client.UnLocode;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(value = {"/main/resources/context-infrastructure-persistence.xml"})
 @Transactional
 public class LocationRepositoryTest {
-    @Autowired
-    private LocationRepository locationRepository;
-
     @Autowired
     private DataSource dataSource;
 
@@ -45,16 +42,21 @@ public class LocationRepositoryTest {
     @Test
     public void testFind() {
         final UnLocode melbourne = LocationClient.createUnLocode("AUMEL");
-        Location location = locationRepository.find(melbourne);
-        assertThat(location).isNotNull();
-        assertThat(location.getUnLocode()).isEqualTo(melbourne);
+        Optional<Location> location = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals(melbourne.getUnlocode()))
+                .findFirst();
+        assertThat(location).isPresent();
+        assertThat(location.get().getUnLocode()).isEqualTo(melbourne);
 
-        assertThat(locationRepository.find(LocationClient.createUnLocode("NOLOC"))).isNull();
+        Optional<Location> locationNoLoc = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals(melbourne.getUnlocode()))
+                .findFirst();
+        assertThat(!locationNoLoc.isPresent());
     }
 
     @Test
     public void testFindAll() {
-        List<Location> allLocations = locationRepository.findAll();
+        List<Location> allLocations = LocationClient.sampleLocationsGetAll();
 
         assertThat(allLocations).isNotNull();
         assertThat(allLocations).hasSize(7);

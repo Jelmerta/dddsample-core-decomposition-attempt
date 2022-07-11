@@ -39,7 +39,7 @@ public class HandlingReportServiceImpl implements HandlingReportService {
     final Date completionTime = parseCompletionTime(handlingReport, errors);
     final VoyageNumber voyageNumber = parseVoyageNumber(handlingReport.getVoyageNumber(), errors);
     final HandlingEvent.Type type = parseEventType(handlingReport.getType(), errors);
-    final UnLocode unLocode = parseUnLocode(handlingReport.getUnLocode(), errors);
+    final String unLocode = parseUnLocode(handlingReport.getUnLocode(), errors);
 
     for (String trackingIdStr : handlingReport.getTrackingIds()) {
       final TrackingId trackingId = parseTrackingId(trackingIdStr, errors);

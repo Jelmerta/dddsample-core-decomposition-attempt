@@ -1,8 +1,6 @@
 package se.citerus.dddsample.interfaces.booking.facade.internal.assembler;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static se.citerus.dddsample.domain.model.voyage.SampleVoyages.CM001;
 
 import java.util.ArrayList;
@@ -16,7 +14,6 @@ import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.Leg;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
 import se.citerus.dddsample.interfaces.booking.facade.dto.LegDTO;
@@ -33,8 +30,8 @@ public class ItineraryCandidateDTOAssemblerTest {
 
     final Itinerary itinerary = new Itinerary(
       Arrays.asList(
-        new Leg(CM001, origin, LocationClient.sampleLocationsGetLocation("SHANGHAI"), new Date(), new Date()),
-        new Leg(CM001, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), destination, new Date(), new Date())
+        new Leg(CM001, origin.getName(), LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), new Date(), new Date()),
+        new Leg(CM001, LocationClient.sampleLocationsGetLocation("ROTTERDAM").getName(), destination.getName(), new Date(), new Date())
       )
     );
 
@@ -60,16 +57,11 @@ public class ItineraryCandidateDTOAssemblerTest {
     legs.add(new LegDTO("CM001", "AAAAA", "BBBBB", new Date(), new Date()));
     legs.add(new LegDTO("CM001", "BBBBB", "CCCCC", new Date(), new Date()));
 
-    final LocationRepository locationRepository = mock(LocationRepository.class);
-    when(locationRepository.find(LocationClient.createUnLocode("AAAAA"))).thenReturn(LocationClient.sampleLocationsGetLocation("HONGKONG"));
-    when(locationRepository.find(LocationClient.createUnLocode("BBBBB"))).thenReturn(LocationClient.sampleLocationsGetLocation("TOKYO"));
-    when(locationRepository.find(LocationClient.createUnLocode("CCCCC"))).thenReturn(LocationClient.sampleLocationsGetLocation("CHICAGO"));
-
     final VoyageRepository voyageRepository = new VoyageRepositoryInMem();
 
 
     // Tested call
-    final Itinerary itinerary = assembler.fromDTO(new RouteCandidateDTO(legs), voyageRepository, locationRepository);
+    final Itinerary itinerary = assembler.fromDTO(new RouteCandidateDTO(legs), voyageRepository);
 
     
     assertThat(itinerary).isNotNull();

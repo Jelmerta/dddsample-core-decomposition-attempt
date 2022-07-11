@@ -2,8 +2,8 @@ package se.citerus.dddsample.domain.model.cargo;
 
 import org.apache.commons.lang.Validate;
 
-import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.common.Entity;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.shared.DomainObjectUtils;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingHistory;
@@ -47,7 +47,8 @@ import se.citerus.dddsample.domain.model.handling.HandlingHistory;
 public class Cargo implements Entity<Cargo> {
 
   private se.citerus.dddsample.domain.model.cargo.TrackingId trackingId;
-  private Location origin;
+//  private Location origin;
+  private LocationId origin; // TODO Trying this as id of location...
   private se.citerus.dddsample.domain.model.cargo.RouteSpecification routeSpecification;
   private Itinerary itinerary;
   private Delivery delivery;
@@ -59,6 +60,7 @@ public class Cargo implements Entity<Cargo> {
     this.trackingId = trackingId;
     // Cargo origin never changes, even if the route specification changes.
     // However, at creation, cargo orgin can be derived from the initial route specification.
+//    this.origin = routeSpecification.origin();
     this.origin = routeSpecification.origin();
     this.routeSpecification = routeSpecification;
 
@@ -79,7 +81,10 @@ public class Cargo implements Entity<Cargo> {
   /**
    * @return Origin location.
    */
-  public Location origin() {
+//  public Location origin() {
+//    return origin;
+//  }
+  public LocationId origin() {
     return origin;
   }
 

@@ -16,14 +16,6 @@ public final class Location implements Entity<Location> {
   private UnLocode unLocode;
   private String name;
 
-  /**
-   * Special Location object that marks an unknown location.
-   */
-  // TODO We probably shouldn't call client when in own service though... Should we just generate these the old way?
-  public static final Location UNKNOWN = new Location(
-    new UnLocode("XXXXX"), "Unknown location"
-  );
-
   // TODO Maybe always introduce a constructor from proto to the POJO for deserialization?
   public Location(se.citerus.dddsample.client.Location locationProto) {
     this.unLocode = new UnLocode(locationProto.getUnLocode());

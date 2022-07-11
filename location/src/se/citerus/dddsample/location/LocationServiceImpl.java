@@ -52,7 +52,7 @@ public class LocationServiceImpl extends LocationServiceGrpc.LocationServiceImpl
         responseObserver.onCompleted();
     }
 
-    public void getLocation(SampleLocationsGetLocationRequest request, StreamObserver<SampleLocationsGetLocationResponse> responseObserver) {
+    public void sampleLocationsGetLocation(SampleLocationsGetLocationRequest request, StreamObserver<SampleLocationsGetLocationResponse> responseObserver) {
         Location location = SampleLocations.findConstant(request.getName());
         se.citerus.dddsample.client.UnLocode unLocodeProto = se.citerus.dddsample.client.UnLocode.newBuilder()
                 .setUnlocode(location.unLocode().getUnlocode())
@@ -73,8 +73,12 @@ public class LocationServiceImpl extends LocationServiceGrpc.LocationServiceImpl
     }
 
     public void locationSameIdentityAs(LocationSameIdentityAsRequest request, StreamObserver<LocationSameIdentityAsResponse> responseObserver) {
-        Location thisLocation = new Location(request.getThis());
-        Location location = new Location(request.getLocation());
+        // TODO Maybe instead of new you would expect the data to be retrieved. If it does not exist you might want to deal with it by throwing an error, or by generating the data on the fly...?
+        // Maybe make it so developer has the option to implement a getLocation from a database. Unfeasible in most cases to do this?
+
+        Location thisLocation = SampleLocations.findConstant(request.getThisLocation());
+        Location location = SampleLocations.findConstant(request.getLocation());
+//        Location location = new Location(request.getLocation());
         boolean sameIdentityAs = thisLocation.sameIdentityAs(location);
         // TODO We need some POJO to proto structure converter?
 

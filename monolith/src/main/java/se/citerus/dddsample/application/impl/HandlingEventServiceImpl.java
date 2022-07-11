@@ -35,7 +35,7 @@ public class HandlingEventServiceImpl implements HandlingEventService {
   public void registerHandlingEvent(final Date completionTime,
                                     final TrackingId trackingId,
                                     final VoyageNumber voyageNumber,
-                                    final UnLocode unLocode,
+                                    final String unLocode,
                                     final HandlingEvent.Type type) throws CannotCreateHandlingEventException {
     final Date registrationTime = new Date();
     /* Using a factory to create a HandlingEvent (aggregate). This is where

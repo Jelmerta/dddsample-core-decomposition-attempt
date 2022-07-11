@@ -1,13 +1,13 @@
 package se.citerus.dddsample.domain.model.handling;
 
 import se.citerus.dddsample.client.Location;
-import se.citerus.dddsample.client.UnLocode;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.common.CannotCreateHandlingEventException;
 import se.citerus.dddsample.common.UnknownLocationException;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -21,14 +21,14 @@ public class HandlingEventFactory {
 
   private final CargoRepository cargoRepository;
   private final VoyageRepository voyageRepository;
-  private final LocationRepository locationRepository;
+//  private final LocationRepository locationRepository;
 
   public HandlingEventFactory(final CargoRepository cargoRepository,
-                              final VoyageRepository voyageRepository,
-                              final LocationRepository locationRepository) {
+                              final VoyageRepository voyageRepository) {
+//                              final LocationRepository locationRepository) {
     this.cargoRepository = cargoRepository;
     this.voyageRepository = voyageRepository;
-    this.locationRepository = locationRepository;
+//    this.locationRepository = locationRepository;
   }
 
   /**
@@ -43,11 +43,11 @@ public class HandlingEventFactory {
    * @throws UnknownLocationException if there's no location with this UN Locode
    * @return A handling event.
    */
-  public HandlingEvent createHandlingEvent(Date registrationTime, Date completionTime, TrackingId trackingId, VoyageNumber voyageNumber, UnLocode unlocode, HandlingEvent.Type type)
+  public HandlingEvent createHandlingEvent(Date registrationTime, Date completionTime, TrackingId trackingId, VoyageNumber voyageNumber, String unlocode, HandlingEvent.Type type)
     throws CannotCreateHandlingEventException {
     final Cargo cargo = findCargo(trackingId);
     final Voyage voyage = findVoyage(voyageNumber);
-    final Location location = findLocation(unlocode);
+    final LocationId location = findLocation(unlocode);
 
     try {
       if (voyage == null) {
@@ -85,13 +85,15 @@ public class HandlingEventFactory {
   // Or make a copy...?
   // Or common module
   // TODO For now common module seems easiest...
-  private Location findLocation(final UnLocode unlocode) throws UnknownLocationException {
-    final Location location = locationRepository.find(unlocode);
-    if (location == null) {
+  private LocationId findLocation(final String unlocode) throws UnknownLocationException {
+    final Location location = LocationClient.sampleLocationsGetAll().stream()
+            .filter(l -> l.getUnLocode().getUnlocode().equals(unlocode))
+            .findFirst().orElseThrow(IllegalArgumentException::new);
+    if (location == null) { // TODO Not required now.. Maybe not throw exception? Might be other null checks.
       throw new UnknownLocationException(unlocode);
     }
 
-    return location;
+    return new LocationId(location.getName());
   }
 
 }

@@ -18,6 +18,7 @@ public interface GraphTraversalService extends Remote {
    * @return A list of transit paths
    * @throws java.rmi.RemoteException RMI problem
    */
+  // TODO RMI? Interesting
   List<TransitPath> findShortestPath(String origin,
                                      String destination,
                                      Properties limitations);

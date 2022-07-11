@@ -92,7 +92,7 @@ public class UploadDirectoryScanner extends TimerTask implements InitializingBea
     final TrackingId trackingId = parseTrackingId(trackingIdStr, errors);
     final VoyageNumber voyageNumber = parseVoyageNumber(voyageNumberStr, errors);
     final HandlingEvent.Type eventType = parseEventType(eventTypeStr, errors);
-    final UnLocode unLocode = parseUnLocode(unLocodeStr, errors);
+    final String unLocode = parseUnLocode(unLocodeStr, errors);
 
     if (errors.isEmpty()) {
       final HandlingEventRegistrationAttempt attempt = new HandlingEventRegistrationAttempt(new Date(), date, trackingId, voyageNumber, eventType, unLocode);

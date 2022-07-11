@@ -36,6 +36,15 @@ public class SampleLocations {
   public static final Location NEWYORK = new Location(new UnLocode("USNYC"), "New York");
   public static final Location DALLAS = new Location(new UnLocode("USDAL"), "Dallas");
 
+  // TODO We have moved UNKNOWN over from Location for simplicity, otherwise introducing another service call.
+  /**
+   * Special Location object that marks an unknown location.
+   */
+  // TODO We probably shouldn't call client when in own service though... Should we just generate these the old way?
+  public static final Location UNKNOWN = new Location(
+          new UnLocode("XXXXX"), "Unknown location"
+  );
+
   public static final Map<UnLocode, Location> ALL = new HashMap<UnLocode, Location>();
 
   static {
@@ -63,6 +72,7 @@ public class SampleLocations {
   // TODO We use reflection to find the location (we wouldn't easily know about the function above without human intervention)
   // We could rewrite this so that reflection is not required (adding the constants in a map in a constructor one by one and then making a find function on that? might be better ways), but for now this is the easiest solution.
   public static Location findConstant (String name) {
+    System.out.println("Looking for constant: " + name);
     Class<SampleLocations> c = SampleLocations.class;
     for (Field field : c.getDeclaredFields()) {
       int mod = field.getModifiers();

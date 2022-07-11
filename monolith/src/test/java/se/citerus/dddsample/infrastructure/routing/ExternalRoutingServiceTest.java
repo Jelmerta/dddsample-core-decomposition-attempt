@@ -8,11 +8,9 @@ import org.junit.Test;
 import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.domain.model.cargo.*;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.SampleVoyages;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
-import se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -31,8 +29,6 @@ public class ExternalRoutingServiceTest {
   @Before
   public void setUp() {
     externalRoutingService = new ExternalRoutingService();
-    LocationRepository locationRepository = new LocationRepositoryInMem();
-    externalRoutingService.setLocationRepository(locationRepository);
 
     voyageRepository = mock(VoyageRepository.class);
     externalRoutingService.setVoyageRepository(voyageRepository);
@@ -52,7 +48,7 @@ public class ExternalRoutingServiceTest {
   @Test
   public void testCalculatePossibleRoutes() {
     TrackingId trackingId = new TrackingId("ABC");
-    RouteSpecification routeSpecification = new RouteSpecification(LocationClient.sampleLocationsGetLocation("HONGKONG"), LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date());
+    RouteSpecification routeSpecification = new RouteSpecification(LocationClient.sampleLocationsGetLocation("HONGKONG").getName(), LocationClient.sampleLocationsGetLocation("HELSINKI").getName(), new Date());
     Cargo cargo = new Cargo(trackingId, routeSpecification);
 
     when(voyageRepository.find(isA(VoyageNumber.class))).thenReturn(SampleVoyages.CM002);
@@ -69,7 +65,7 @@ public class ExternalRoutingServiceTest {
       assertThat(legs.get(0).loadLocation()).isEqualTo(cargo.origin());
 
       // Cargo final destination and last leg stop should match
-      Location lastLegStop = legs.get(legs.size() - 1).unloadLocation();
+      String lastLegStop = legs.get(legs.size() - 1).unloadLocation();
       assertThat(lastLegStop).isEqualTo(cargo.routeSpecification().destination());
 
       for (int i = 0; i < legs.size() - 1; i++) {

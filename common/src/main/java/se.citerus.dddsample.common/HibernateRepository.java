@@ -1,4 +1,4 @@
-package se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.common;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

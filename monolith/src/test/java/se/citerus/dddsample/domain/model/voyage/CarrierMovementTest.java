@@ -18,12 +18,12 @@ public class CarrierMovementTest {
     } catch (IllegalArgumentException expected) {}
 
     try {
-      new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), null, new Date(), new Date());
+      new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), null, new Date(), new Date());
       fail("Should not accept null constructor arguments");
     } catch (IllegalArgumentException expected) {}
 
     // Legal
-    new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("HAMBURG"), new Date(), new Date());
+    new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), new Date(), new Date());
   }
 
   @Test
@@ -34,10 +34,10 @@ public class CarrierMovementTest {
     // However, in practice, carrier movements will be initialized by different processes
     // so we might have different Date that reference the same time, and we want to be
     // certain that sameValueAs does the right thing in that case.
-    CarrierMovement cm1 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("HAMBURG"), new Date(referenceTime), new Date(referenceTime));
-    CarrierMovement cm2 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("HAMBURG"), new Date(referenceTime), new Date(referenceTime));
-    CarrierMovement cm3 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("HAMBURG"), LocationClient.sampleLocationsGetLocation("STOCKHOLM"), new Date(referenceTime), new Date(referenceTime));
-    CarrierMovement cm4 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("HAMBURG"), LocationClient.sampleLocationsGetLocation("STOCKHOLM"), new Date(referenceTime), new Date(referenceTime));
+    CarrierMovement cm1 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), new Date(referenceTime), new Date(referenceTime));
+    CarrierMovement cm2 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), new Date(referenceTime), new Date(referenceTime));
+    CarrierMovement cm3 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), new Date(referenceTime), new Date(referenceTime));
+    CarrierMovement cm4 = new CarrierMovement(LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), new Date(referenceTime), new Date(referenceTime));
 
     assertThat(cm1.sameValueAs(cm2)).isTrue();
     assertThat(cm2.sameValueAs(cm3)).isFalse();

@@ -1,7 +1,6 @@
 package se.citerus.dddsample.domain.model.voyage;
 
 import org.apache.commons.lang.Validate;
-import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.common.Entity;
 
 import java.util.ArrayList;
@@ -84,9 +83,9 @@ public class Voyage implements Entity<Voyage> {
 
     private final List<CarrierMovement> carrierMovements = new ArrayList<CarrierMovement>();
     private final VoyageNumber voyageNumber;
-    private Location departureLocation;
+    private String departureLocation;
 
-    public Builder(final VoyageNumber voyageNumber, final Location departureLocation) {
+    public Builder(final VoyageNumber voyageNumber, final String departureLocation) {
       Validate.notNull(voyageNumber, "Voyage number is required");
       Validate.notNull(departureLocation, "Departure location is required");
 
@@ -94,7 +93,7 @@ public class Voyage implements Entity<Voyage> {
       this.departureLocation = departureLocation;
     }
 
-    public Builder addMovement(Location arrivalLocation, Date departureTime, Date arrivalTime) {
+    public Builder addMovement(String arrivalLocation, Date departureTime, Date arrivalTime) {
       carrierMovements.add(new CarrierMovement(departureLocation, arrivalLocation, departureTime, arrivalTime));
       // Next departure location is the same as this arrival location
       this.departureLocation = arrivalLocation;

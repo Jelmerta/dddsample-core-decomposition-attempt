@@ -1,6 +1,7 @@
 package se.citerus.dddsample.infrastructure.persistence.hibernate;
 
 import org.springframework.stereotype.Repository;
+import se.citerus.dddsample.common.HibernateRepository;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;

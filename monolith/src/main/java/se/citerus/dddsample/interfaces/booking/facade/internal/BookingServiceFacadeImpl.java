@@ -7,7 +7,6 @@ import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.Itinerary;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 import se.citerus.dddsample.interfaces.booking.facade.BookingServiceFacade;
 import se.citerus.dddsample.interfaces.booking.facade.dto.CargoRoutingDTO;
@@ -31,13 +30,13 @@ import java.util.List;
 public class BookingServiceFacadeImpl implements BookingServiceFacade {
 
   private BookingService bookingService;
-  private LocationRepository locationRepository;
+//  private LocationRepository locationRepository;
   private CargoRepository cargoRepository;
   private VoyageRepository voyageRepository;
 
   @Override
   public List<LocationDTO> listShippingLocations() {
-    final List<Location> allLocations = locationRepository.findAll();
+    final List<Location> allLocations = LocationClient.sampleLocationsGetAll();
     final LocationDTOAssembler assembler = new LocationDTOAssembler();
     return assembler.toDTOList(allLocations);
   }
@@ -61,7 +60,7 @@ public class BookingServiceFacadeImpl implements BookingServiceFacade {
 
   @Override
   public void assignCargoToRoute(String trackingIdStr, RouteCandidateDTO routeCandidateDTO) {
-    final Itinerary itinerary = new ItineraryCandidateDTOAssembler().fromDTO(routeCandidateDTO, voyageRepository, locationRepository);
+    final Itinerary itinerary = new ItineraryCandidateDTOAssembler().fromDTO(routeCandidateDTO, voyageRepository);//, locationRepository); TODO?
     final TrackingId trackingId = new TrackingId(trackingIdStr);
 
     bookingService.assignCargoToRoute(itinerary, trackingId);
@@ -100,9 +99,10 @@ public class BookingServiceFacadeImpl implements BookingServiceFacade {
     this.bookingService = bookingService;
   }
 
-  public void setLocationRepository(LocationRepository locationRepository) {
-    this.locationRepository = locationRepository;
-  }
+  // TODO?
+//  public void setLocationRepository(LocationRepository locationRepository) {
+//    this.locationRepository = locationRepository;
+//  }
 
   public void setCargoRepository(CargoRepository cargoRepository) {
     this.cargoRepository = cargoRepository;

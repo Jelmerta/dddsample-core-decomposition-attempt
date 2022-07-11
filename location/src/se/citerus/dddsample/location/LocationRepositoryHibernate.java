@@ -1,9 +1,10 @@
-package se.citerus.dddsample.infrastructure.persistence.hibernate;
+package se.citerus.dddsample.location;
 
 import org.springframework.stereotype.Repository;
 import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.UnLocode;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
+import se.citerus.dddsample.common.HibernateRepository;
+import se.citerus.dddsample.location.location.LocationRepository;
 
 import java.util.List;
 

@@ -11,7 +11,6 @@ import java.util.Date;
 
 import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.LocationClient;
-import se.citerus.dddsample.client.UnLocode;
 import se.citerus.dddsample.common.UnknownLocationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,11 +19,9 @@ import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.CargoRepository;
 import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
-import se.citerus.dddsample.infrastructure.persistence.inmemory.LocationRepositoryInMem;
 import se.citerus.dddsample.infrastructure.persistence.inmemory.VoyageRepositoryInMem;
 
 public class HandlingEventFactoryTest {
@@ -32,7 +29,6 @@ public class HandlingEventFactoryTest {
   private HandlingEventFactory factory;
   private CargoRepository cargoRepository;
   private VoyageRepository voyageRepository;
-  private LocationRepository locationRepository;
   private TrackingId trackingId;
   private Cargo cargo;
 
@@ -41,13 +37,12 @@ public class HandlingEventFactoryTest {
 
     cargoRepository = mock(CargoRepository.class);
     voyageRepository = new VoyageRepositoryInMem();
-    locationRepository = new LocationRepositoryInMem();
-    factory = new HandlingEventFactory(cargoRepository, voyageRepository, locationRepository);
+    factory = new HandlingEventFactory(cargoRepository, voyageRepository);
 
     trackingId = new TrackingId("ABC");
     Location TOKYO = LocationClient.sampleLocationsGetLocation("TOKYO");
     Location HELSINKI = LocationClient.sampleLocationsGetLocation("HELSINKI");
-    RouteSpecification routeSpecification = new RouteSpecification(TOKYO, HELSINKI, new Date());
+    RouteSpecification routeSpecification = new RouteSpecification(TOKYO.getName(), HELSINKI.getName(), new Date());
     cargo = new Cargo(trackingId, routeSpecification);
   }
 
@@ -57,7 +52,7 @@ public class HandlingEventFactoryTest {
 
     VoyageNumber voyageNumber = CM001.voyageNumber();
     Location STOCKHOLM = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
-    UnLocode unLocode = STOCKHOLM.getUnLocode();
+    String unLocode = STOCKHOLM.getUnLocode().getUnlocode();
     HandlingEvent handlingEvent = factory.createHandlingEvent(
       new Date(), new Date(100), trackingId, voyageNumber, unLocode, Type.LOAD
     );
@@ -75,7 +70,7 @@ public class HandlingEventFactoryTest {
     when(cargoRepository.find(trackingId)).thenReturn(cargo);
 
     Location STOCKHOLM = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
-    UnLocode unLocode = STOCKHOLM.getUnLocode();
+    String unLocode = STOCKHOLM.getUnLocode().getUnlocode();
     HandlingEvent handlingEvent = factory.createHandlingEvent(
       new Date(), new Date(100), trackingId, null, unLocode, Type.CLAIM
     );
@@ -92,7 +87,7 @@ public class HandlingEventFactoryTest {
   public void testCreateHandlingEventUnknownLocation() throws Exception {
     when(cargoRepository.find(trackingId)).thenReturn(cargo);
 
-    UnLocode invalid = LocationClient.createUnLocode("NOEXT");
+    String invalid = LocationClient.createUnLocode("NOEXT").getUnlocode();
     try {
       factory.createHandlingEvent(
         new Date(), new Date(100), trackingId, CM001.voyageNumber(), invalid, Type.LOAD
@@ -109,7 +104,7 @@ public class HandlingEventFactoryTest {
       VoyageNumber invalid = new VoyageNumber("XXX");
       Location STOCKHOLM = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
       factory.createHandlingEvent(
-        new Date(), new Date(100), trackingId, invalid, STOCKHOLM.getUnLocode(), Type.LOAD
+        new Date(), new Date(100), trackingId, invalid, STOCKHOLM.getUnLocode().getUnlocode(), Type.LOAD
       );
       fail("Expected UnknownVoyageException");
     } catch (UnknownVoyageException expected) {}
@@ -122,7 +117,7 @@ public class HandlingEventFactoryTest {
     try {
       Location STOCKHOLM = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
       factory.createHandlingEvent(
-        new Date(), new Date(100), trackingId, CM001.voyageNumber(), STOCKHOLM.getUnLocode(), Type.LOAD
+        new Date(), new Date(100), trackingId, CM001.voyageNumber(), STOCKHOLM.getUnLocode().getUnlocode(), Type.LOAD
       );
       fail("Expected UnknownCargoException");
     } catch (UnknownCargoException expected) {}

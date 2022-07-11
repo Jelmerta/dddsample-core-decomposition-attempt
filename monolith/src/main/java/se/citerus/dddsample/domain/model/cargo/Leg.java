@@ -3,7 +3,7 @@ package se.citerus.dddsample.domain.model.cargo;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.common.ValueObject;
 
@@ -15,12 +15,12 @@ import java.util.Date;
 public class Leg implements ValueObject<Leg> {
 
   private Voyage voyage;
-  private Location loadLocation;
-  private Location unloadLocation;
+  private LocationId loadLocation;
+  private LocationId unloadLocation;
   private Date loadTime;
   private Date unloadTime;
 
-  public Leg(Voyage voyage, Location loadLocation, Location unloadLocation, Date loadTime, Date unloadTime) {
+  public Leg(Voyage voyage, LocationId loadLocation, LocationId unloadLocation, Date loadTime, Date unloadTime) {
     Validate.noNullElements(new Object[] {voyage, loadLocation, unloadLocation, loadTime, unloadTime});
     
     this.voyage = voyage;
@@ -34,11 +34,11 @@ public class Leg implements ValueObject<Leg> {
     return voyage;
   }
 
-  public Location loadLocation() {
+  public LocationId loadLocation() {
     return loadLocation;
   }
 
-  public Location unloadLocation() {
+  public LocationId unloadLocation() {
     return unloadLocation;
   }
 

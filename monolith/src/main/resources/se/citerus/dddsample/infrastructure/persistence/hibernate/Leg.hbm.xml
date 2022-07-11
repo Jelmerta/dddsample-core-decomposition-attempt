@@ -12,10 +12,14 @@
 
     <many-to-one name="voyage" column="voyage_id" cascade="none" foreign-key="voyage_fk"/>
 
-    <many-to-one name="loadLocation" column="load_location_id" cascade="none" foreign-key="load_location_fk"/>
+<!--    <many-to-one name="loadLocation" column="load_location_id" cascade="none" foreign-key="load_location_fk"/>-->
+    <property name = "loadLocation" column = "load_location_id" type = "string"/>
+
     <property name="loadTime" column="load_time" not-null="true"/>
 
-    <many-to-one name="unloadLocation" column="unload_location_id" cascade="none" foreign-key="unload_location_fk"/>
+<!--    <many-to-one name="unloadLocation" column="unload_location_id" cascade="none" foreign-key="unload_location_fk"/>-->
+    <property name = "unloadLocation" column = "unload_location_id" type = "string"/>
+
     <property name="unloadTime" column="unload_time" not-null="true"/>
     
   </class>

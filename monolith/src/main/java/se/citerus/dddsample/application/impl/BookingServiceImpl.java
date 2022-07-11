@@ -1,13 +1,14 @@
 package se.citerus.dddsample.application.impl;
 
 import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.client.LocationClient;
 import se.citerus.dddsample.client.UnLocode;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.cargo.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 import se.citerus.dddsample.application.BookingService;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.service.RoutingService;
 
 import java.util.Collections;
@@ -17,15 +18,15 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
 
   private final CargoRepository cargoRepository;
-  private final LocationRepository locationRepository;
+//  private final LocationRepository locationRepository; // TODO?
   private final RoutingService routingService;
   private final Log logger = LogFactory.getLog(getClass());
 
   public BookingServiceImpl(final CargoRepository cargoRepository,
-                            final LocationRepository locationRepository,
+//                            final LocationRepository locationRepository,
                             final RoutingService routingService) {
     this.cargoRepository = cargoRepository;
-    this.locationRepository = locationRepository;
+//    this.locationRepository = locationRepository;
     this.routingService = routingService;
   }
 
@@ -36,9 +37,13 @@ public class BookingServiceImpl implements BookingService {
                                  final Date arrivalDeadline) {
     // TODO modeling this as a cargo factory might be suitable
     final TrackingId trackingId = cargoRepository.nextTrackingId();
-    final Location origin = locationRepository.find(originUnLocode);
-    final Location destination = locationRepository.find(destinationUnLocode);
-    final RouteSpecification routeSpecification = new RouteSpecification(origin, destination, arrivalDeadline);
+    final Location origin = LocationClient.sampleLocationsGetAll().stream()
+            .filter(l -> l.getUnLocode().getUnlocode().equals(originUnLocode.getUnlocode()))
+            .findFirst().orElseThrow(IllegalArgumentException::new);
+    final Location destination = LocationClient.sampleLocationsGetAll().stream()
+            .filter(l -> l.getUnLocode().getUnlocode().equals(destinationUnLocode.getUnlocode()))
+            .findFirst().orElseThrow(IllegalArgumentException::new);
+    final RouteSpecification routeSpecification = new RouteSpecification(new LocationId(origin.getName()), new LocationId(destination.getName()), arrivalDeadline);
 
     final Cargo cargo = new Cargo(trackingId, routeSpecification);
 
@@ -78,10 +83,12 @@ public class BookingServiceImpl implements BookingService {
   @Transactional
   public void changeDestination(final TrackingId trackingId, final UnLocode unLocode) {
     final Cargo cargo = cargoRepository.find(trackingId);
-    final Location newDestination = locationRepository.find(unLocode);
+    final Location newDestination = LocationClient.sampleLocationsGetAll().stream()
+            .filter(l -> l.getUnLocode().getUnlocode().equals(unLocode.getUnlocode()))
+            .findFirst().orElseThrow(IllegalArgumentException::new);
 
     final RouteSpecification routeSpecification = new RouteSpecification(
-      cargo.origin(), newDestination, cargo.routeSpecification().arrivalDeadline()
+      cargo.origin(), new LocationId(newDestination.getName()), cargo.routeSpecification().arrivalDeadline()
     );
     cargo.specifyNewRoute(routeSpecification);
 

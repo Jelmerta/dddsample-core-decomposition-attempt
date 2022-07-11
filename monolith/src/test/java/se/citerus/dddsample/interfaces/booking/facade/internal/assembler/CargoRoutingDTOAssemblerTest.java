@@ -26,12 +26,12 @@ public class CargoRoutingDTOAssemblerTest {
 
     final Location origin = LocationClient.sampleLocationsGetLocation("STOCKHOLM");
     final Location destination = LocationClient.sampleLocationsGetLocation("MELBOURNE");
-    final Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(origin, destination, new Date()));
+    final Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(origin.getName(), destination.getName(), new Date()));
 
     final Itinerary itinerary = new Itinerary(
       Arrays.asList(
-        new Leg(CM001, origin, LocationClient.sampleLocationsGetLocation("SHANGHAI"), new Date(), new Date()),
-        new Leg(CM001, LocationClient.sampleLocationsGetLocation("ROTTERDAM"), destination, new Date(), new Date())
+        new Leg(CM001, origin.getName(), LocationClient.sampleLocationsGetLocation("SHANGHAI").getName(), new Date(), new Date()),
+        new Leg(CM001, LocationClient.sampleLocationsGetLocation("ROTTERDAM").getName(), destination.getName(), new Date(), new Date())
       )
     );
 
@@ -56,7 +56,7 @@ public class CargoRoutingDTOAssemblerTest {
   public void testToDTO_NoItinerary() {
     final CargoRoutingDTOAssembler assembler = new CargoRoutingDTOAssembler();
 
-    final Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("STOCKHOLM"), LocationClient.sampleLocationsGetLocation("MELBOURNE"), new Date()));
+    final Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getName(), LocationClient.sampleLocationsGetLocation("MELBOURNE").getName(), new Date()));
     final CargoRoutingDTO dto = assembler.toDTO(cargo);
 
     assertThat(dto.getTrackingId()).isEqualTo("XYZ");

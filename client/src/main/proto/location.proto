@@ -45,8 +45,8 @@ message SampleLocationsGetAllResponse {
 }
 
 message LocationSameIdentityAsRequest {
-  Location this = 1;
-  Location location = 2;
+  string thisLocation = 1;
+  string location = 2;
 }
 
 message LocationSameIdentityAsResponse {

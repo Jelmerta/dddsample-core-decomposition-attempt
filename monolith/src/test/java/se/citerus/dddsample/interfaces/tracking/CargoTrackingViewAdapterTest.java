@@ -24,13 +24,13 @@ public class CargoTrackingViewAdapterTest {
 
   @Test
   public void testCreate() {
-    Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HANGZOU"), LocationClient.sampleLocationsGetLocation("HELSINKI"), new Date()));
+    Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HANGZOU").getName(), LocationClient.sampleLocationsGetLocation("HELSINKI").getName(), new Date()));
 
     List<HandlingEvent> events = new ArrayList<HandlingEvent>();
-    events.add(new HandlingEvent(cargo, new Date(1), new Date(2), HandlingEvent.Type.RECEIVE, LocationClient.sampleLocationsGetLocation("HANGZOU")));
+    events.add(new HandlingEvent(cargo, new Date(1), new Date(2), HandlingEvent.Type.RECEIVE, LocationClient.sampleLocationsGetLocation("HANGZOU").getName()));
 
-    events.add(new HandlingEvent(cargo, new Date(3), new Date(4), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("HANGZOU"), CM001));
-    events.add(new HandlingEvent(cargo, new Date(5), new Date(6), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("HELSINKI"), CM001));
+    events.add(new HandlingEvent(cargo, new Date(3), new Date(4), HandlingEvent.Type.LOAD, LocationClient.sampleLocationsGetLocation("HANGZOU").getName(), CM001));
+    events.add(new HandlingEvent(cargo, new Date(5), new Date(6), HandlingEvent.Type.UNLOAD, LocationClient.sampleLocationsGetLocation("HELSINKI").getName(), CM001));
 
     cargo.deriveDeliveryProgress(new HandlingHistory(events));
 

@@ -15,14 +15,14 @@ import java.util.Date;
  */
 public final class CarrierMovement implements ValueObject<CarrierMovement> {
 
-  private Location departureLocation;
-  private Location arrivalLocation;
+  private String departureLocation;
+  private String arrivalLocation;
   private Date departureTime;
   private Date arrivalTime;
 
   // Null object pattern 
   public static final CarrierMovement NONE = new CarrierMovement(
-          LocationClient.sampleLocationsGetLocation("UNKNOWN"), LocationClient.sampleLocationsGetLocation("UNKNOWN"),
+          LocationClient.sampleLocationsGetLocation("UNKNOWN").getName(), LocationClient.sampleLocationsGetLocation("UNKNOWN").getName(),
     new Date(0), new Date(0)
   );
 
@@ -35,8 +35,8 @@ public final class CarrierMovement implements ValueObject<CarrierMovement> {
    * @param arrivalTime time of arrival
    */
   // TODO make package local
-  public CarrierMovement(Location departureLocation,
-                         Location arrivalLocation,
+  public CarrierMovement(String departureLocation,
+                         String arrivalLocation,
                          Date departureTime,
                          Date arrivalTime) {
     Validate.noNullElements(new Object[]{departureLocation, arrivalLocation, departureTime, arrivalTime});
@@ -49,14 +49,14 @@ public final class CarrierMovement implements ValueObject<CarrierMovement> {
   /**
    * @return Departure location.
    */
-  public Location departureLocation() {
+  public String departureLocation() {
     return departureLocation;
   }
 
   /**
    * @return Arrival location.
    */
-  public Location arrivalLocation() {
+  public String arrivalLocation() {
     return arrivalLocation;
   }
 

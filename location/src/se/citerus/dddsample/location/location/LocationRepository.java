@@ -1,4 +1,4 @@
-package se.citerus.dddsample.domain.model.location;
+package se.citerus.dddsample.location.location;
 
 import se.citerus.dddsample.client.Location;
 import se.citerus.dddsample.client.UnLocode;

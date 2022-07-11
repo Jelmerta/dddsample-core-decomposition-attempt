@@ -22,7 +22,6 @@ import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventFactory;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
 
 public class HandlingEventServiceTest {
@@ -31,19 +30,17 @@ public class HandlingEventServiceTest {
   private CargoRepository cargoRepository;
   private VoyageRepository voyageRepository;
   private HandlingEventRepository handlingEventRepository;
-  private LocationRepository locationRepository;
 
-  private final Cargo cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HAMBURG"), LocationClient.sampleLocationsGetLocation("TOKYO"), new Date()));
+  private final Cargo cargo = new Cargo(new TrackingId("ABC"), new RouteSpecification(LocationClient.sampleLocationsGetLocation("HAMBURG").getName(), LocationClient.sampleLocationsGetLocation("TOKYO").getName(), new Date()));
 
   @Before
   public void setUp() {
     cargoRepository = mock(CargoRepository.class);
     voyageRepository = mock(VoyageRepository.class);
     handlingEventRepository = mock(HandlingEventRepository.class);
-    locationRepository = mock(LocationRepository.class);
     applicationEvents = mock(ApplicationEvents.class);
 
-    HandlingEventFactory handlingEventFactory = new HandlingEventFactory(cargoRepository, voyageRepository, locationRepository);
+    HandlingEventFactory handlingEventFactory = new HandlingEventFactory(cargoRepository, voyageRepository);
     service = new HandlingEventServiceImpl(handlingEventRepository, applicationEvents, handlingEventFactory);
   }
 
@@ -57,9 +54,8 @@ public class HandlingEventServiceTest {
   public void testRegisterEvent() throws Exception {
     when(cargoRepository.find(cargo.trackingId())).thenReturn(cargo);
     when(voyageRepository.find(CM001.voyageNumber())).thenReturn(CM001);
-    when(locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode())).thenReturn(LocationClient.sampleLocationsGetLocation("STOCKHOLM"));
 
-    service.registerHandlingEvent(new Date(), cargo.trackingId(), CM001.voyageNumber(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode(), HandlingEvent.Type.LOAD);
+    service.registerHandlingEvent(new Date(), cargo.trackingId(), CM001.voyageNumber(), LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode().getUnlocode(), HandlingEvent.Type.LOAD);
   }
 
 }

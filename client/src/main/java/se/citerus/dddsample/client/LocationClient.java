@@ -33,7 +33,7 @@ public class LocationClient {
         return stub.createUnLocode(request).getUnLocode();
     }
 
-    public static List<Location> SampleLocationsGetAll() {
+    public static List<Location> sampleLocationsGetAll() {
         SampleLocationsGetAllRequest request = SampleLocationsGetAllRequest.newBuilder()
                 .build();
 
@@ -49,10 +49,11 @@ public class LocationClient {
         return stub.sampleLocationsGetLocation(request).getLocation();
     }
 
-    public static boolean locationSameIdentityAs(Location thisLocation, Location location) {
+    // TODO Arguments should just be id of locations, as the location service is aware of what locations you are asking about
+    public static boolean locationSameIdentityAs(String thisLocationId, String locationId) {
         LocationSameIdentityAsRequest request = LocationSameIdentityAsRequest.newBuilder()
-                .setThis(thisLocation)
-                .setLocation(location)
+                .setThisLocation(thisLocationId)
+                .setLocation(locationId)
                 .build();
 
         return stub.locationSameIdentityAs(request).getBoolean();

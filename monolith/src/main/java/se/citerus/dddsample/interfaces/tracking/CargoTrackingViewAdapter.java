@@ -1,7 +1,7 @@
 package se.citerus.dddsample.interfaces.tracking;
 
 import org.springframework.context.MessageSource;
-import se.citerus.dddsample.client.Location;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.model.cargo.Cargo;
 import se.citerus.dddsample.domain.model.cargo.Delivery;
 import se.citerus.dddsample.domain.model.cargo.HandlingActivity;
@@ -55,13 +55,16 @@ public final class CargoTrackingViewAdapter {
         }
     }
 
+    // TODO How to deal with this? Function that takes Location and does something with it
+  // If location can just be an id then we don't need any functions that take a location, but how do we detect this?
+  // In such a case, the easiest way to handle this is to keep using a buffer object?
   /**
    * @param location a location
    * @return A formatted string for displaying the location.
    */
-  private String getDisplayText(Location location) {
-    return location.getName();
-  }
+//  private String getDisplayText(Location location) {
+//    return location.getName();
+//  }
 
   /**
    * @return An unmodifiable list of handling event view adapters.
@@ -80,7 +83,7 @@ public final class CargoTrackingViewAdapter {
     final Object[] args;
     switch (delivery.transportStatus()) {
       case IN_PORT:
-        args = new Object[] {getDisplayText(delivery.lastKnownLocation())};
+        args = new Object[] {delivery.lastKnownLocation()};
         break;
       case ONBOARD_CARRIER:
         args = new Object[] {delivery.currentVoyage().voyageNumber().idString()};
@@ -99,15 +102,15 @@ public final class CargoTrackingViewAdapter {
   /**
    * @return Cargo destination location.
    */
-  public String getDestination() {
-    return getDisplayText(cargo.routeSpecification().destination());
+  public LocationId getDestination() {
+    return cargo.routeSpecification().destination();
   }
 
   /**
    * @return Cargo osigin location.
    */
-  public String getOrigin() {
-    return getDisplayText(cargo.origin());
+  public LocationId getOrigin() {
+    return cargo.origin();
   }
 
   /**
@@ -135,13 +138,13 @@ public final class CargoTrackingViewAdapter {
     if (type.sameValueAs(HandlingEvent.Type.LOAD)) {
         return
           text + type.name().toLowerCase() + " cargo onto voyage " + activity.voyage().voyageNumber() +
-          " in " + activity.location().getName();
+          " in " + activity.location();
       } else if (type.sameValueAs(HandlingEvent.Type.UNLOAD)) {
         return
           text + type.name().toLowerCase() + " cargo off of " + activity.voyage().voyageNumber() +
-          " in " + activity.location().getName();
+          " in " + activity.location();
       } else {
-        return text + type.name().toLowerCase() + " cargo in " + activity.location().getName();
+        return text + type.name().toLowerCase() + " cargo in " + activity.location();
       }
   }
 
@@ -171,8 +174,8 @@ public final class CargoTrackingViewAdapter {
     /**
      * @return Location where the event occurred.
      */
-    public String getLocation() {
-      return handlingEvent.location().getName();
+    public LocationId getLocation() {
+      return handlingEvent.location();
     }
 
     /**
@@ -214,7 +217,7 @@ public final class CargoTrackingViewAdapter {
         case UNLOAD:
           args = new Object[] {
             handlingEvent.voyage().voyageNumber().idString(),
-            handlingEvent.location().getName(),
+            handlingEvent.location(),
             handlingEvent.completionTime()
           };
           break;
@@ -222,7 +225,7 @@ public final class CargoTrackingViewAdapter {
         case RECEIVE:
         case CLAIM:
           args = new Object[] {
-            handlingEvent.location().getName(),
+            handlingEvent.location(),
             handlingEvent.completionTime()
           };
           break;

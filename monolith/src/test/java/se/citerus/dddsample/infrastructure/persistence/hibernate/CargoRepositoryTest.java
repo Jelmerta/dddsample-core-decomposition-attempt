@@ -37,7 +37,6 @@ import se.citerus.dddsample.domain.model.cargo.RouteSpecification;
 import se.citerus.dddsample.domain.model.cargo.TrackingId;
 import se.citerus.dddsample.domain.model.handling.HandlingEvent;
 import se.citerus.dddsample.domain.model.handling.HandlingEventRepository;
-import se.citerus.dddsample.domain.model.location.LocationRepository;
 import se.citerus.dddsample.domain.model.voyage.Voyage;
 import se.citerus.dddsample.domain.model.voyage.VoyageNumber;
 import se.citerus.dddsample.domain.model.voyage.VoyageRepository;
@@ -50,8 +49,8 @@ public class CargoRepositoryTest {
     @Autowired
     CargoRepository cargoRepository;
 
-    @Autowired
-    LocationRepository locationRepository;
+//    @Autowired
+//    LocationRepository locationRepository;
 
     @Autowired
     VoyageRepository voyageRepository;
@@ -95,10 +94,10 @@ public class CargoRepositoryTest {
         HandlingEvent secondEvent = events.get(1);
 
         Voyage hongkongMelbourneTokyoAndBack = new Voyage.Builder(
-                new VoyageNumber("0303"), LocationClient.sampleLocationsGetLocation("HONGKONG")).
-                addMovement(LocationClient.sampleLocationsGetLocation("MELBOURNE"), new Date(), new Date()).
-                addMovement(LocationClient.sampleLocationsGetLocation("TOKYO"), new Date(), new Date()).
-                addMovement(LocationClient.sampleLocationsGetLocation("HONGKONG"), new Date(), new Date()).
+                new VoyageNumber("0303"), LocationClient.sampleLocationsGetLocation("HONGKONG").getName()).
+                addMovement(LocationClient.sampleLocationsGetLocation("MELBOURNE").getName(), new Date(), new Date()).
+                addMovement(LocationClient.sampleLocationsGetLocation("TOKYO").getName(), new Date(), new Date()).
+                addMovement(LocationClient.sampleLocationsGetLocation("HONGKONG").getName(), new Date(), new Date()).
                 build();
 
         assertHandlingEvent(cargo, secondEvent, LOAD, LocationClient.sampleLocationsGetLocation("HONGKONG"), 150, 110, hongkongMelbourneTokyoAndBack);
@@ -144,8 +143,13 @@ public class CargoRepositoryTest {
     @Test
     public void testSave() {
         TrackingId trackingId = new TrackingId("AAA");
-        Location origin = locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode());
-        Location destination = locationRepository.find(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode());
+        String origin = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode().getUnlocode()))
+                .findFirst().orElseThrow(IllegalArgumentException::new).getName();
+
+        String destination = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode().getUnlocode()))
+                .findFirst().orElseThrow(IllegalArgumentException::new).getName();
 
         Cargo cargo = new Cargo(trackingId, new RouteSpecification(origin, destination, new Date()));
         cargoRepository.store(cargo);
@@ -153,8 +157,12 @@ public class CargoRepositoryTest {
         cargo.assignToRoute(new Itinerary(Collections.singletonList(
                 new Leg(
                         voyageRepository.find(new VoyageNumber("0101")),
-                        locationRepository.find(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode()),
-                        locationRepository.find(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode()),
+                        LocationClient.sampleLocationsGetAll().stream()
+                                .filter(l -> l.getUnLocode().getUnlocode().equals(LocationClient.sampleLocationsGetLocation("STOCKHOLM").getUnLocode().getUnlocode()))
+                                .findFirst().orElseThrow(IllegalArgumentException::new).getName(),
+                        LocationClient.sampleLocationsGetAll().stream()
+                        .filter(l -> l.getUnLocode().getUnlocode().equals(LocationClient.sampleLocationsGetLocation("MELBOURNE").getUnLocode().getUnlocode()))
+                        .findFirst().orElseThrow(IllegalArgumentException::new).getName(),
                         new Date(), new Date())
         )));
 
@@ -183,8 +191,12 @@ public class CargoRepositoryTest {
         Long cargoId = getLongId(cargo);
         assertThat(jdbcTemplate.queryForObject("select count(*) from Leg where cargo_id = ?", new Object[]{cargoId}, Integer.class).intValue()).isEqualTo(3);
 
-        Location legFrom = locationRepository.find(LocationClient.createUnLocode("FIHEL"));
-        Location legTo = locationRepository.find(LocationClient.createUnLocode("DEHAM"));
+        String legFrom = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals("FIHEL"))
+                .findFirst().orElseThrow(IllegalArgumentException::new).getName();
+        String legTo = LocationClient.sampleLocationsGetAll().stream()
+                .filter(l -> l.getUnLocode().getUnlocode().equals("DEHAM"))
+                .findFirst().orElseThrow(IllegalArgumentException::new).getName();
         Itinerary newItinerary = new Itinerary(Collections.singletonList(new Leg(CM004, legFrom, legTo, new Date(), new Date())));
 
         cargo.assignToRoute(newItinerary);

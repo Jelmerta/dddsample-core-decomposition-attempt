@@ -1,10 +1,10 @@
 package se.citerus.dddsample.domain.model.cargo;
 
-import se.citerus.dddsample.client.Location;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import se.citerus.dddsample.client.LocationClient;
+import se.citerus.dddsample.domain.LocationId;
 import se.citerus.dddsample.domain.shared.AbstractSpecification;
 import se.citerus.dddsample.common.ValueObject;
 
@@ -17,8 +17,8 @@ import java.util.Date;
  */
 public class RouteSpecification extends AbstractSpecification<Itinerary> implements ValueObject<RouteSpecification> {
 
-  private Location origin;
-  private Location destination;
+  private LocationId origin;
+  private LocationId destination;
   private Date arrivalDeadline;
 
   /**
@@ -26,11 +26,11 @@ public class RouteSpecification extends AbstractSpecification<Itinerary> impleme
    * @param destination destination location - can't be the same as the origin
    * @param arrivalDeadline arrival deadline
    */
-  public RouteSpecification(final Location origin, final Location destination, final Date arrivalDeadline) {
+  public RouteSpecification(final LocationId origin, final LocationId destination, final Date arrivalDeadline) {
     Validate.notNull(origin, "Origin is required");
     Validate.notNull(destination, "Destination is required");
     Validate.notNull(arrivalDeadline, "Arrival deadline is required");
-    Validate.isTrue(!LocationClient.locationSameIdentityAs(origin, destination), "Origin and destination can't be the same: " + origin);
+    Validate.isTrue(!LocationClient.locationSameIdentityAs(origin.idString(), destination.idString()), "Origin and destination can't be the same: " + origin);
 
     this.origin = origin;
     this.destination = destination;
@@ -40,14 +40,14 @@ public class RouteSpecification extends AbstractSpecification<Itinerary> impleme
   /**
    * @return Specified origin location.
    */
-  public Location origin() {
+  public LocationId origin() {
     return origin;
   }
 
   /**
    * @return Specfied destination location.
    */
-  public Location destination() {
+  public LocationId destination() {
     return destination;
   }
 
@@ -61,8 +61,8 @@ public class RouteSpecification extends AbstractSpecification<Itinerary> impleme
   @Override
   public boolean isSatisfiedBy(final Itinerary itinerary) {
     return itinerary != null &&
-           LocationClient.locationSameIdentityAs(origin(), itinerary.initialDepartureLocation()) &&
-           LocationClient.locationSameIdentityAs(destination(), itinerary.finalArrivalLocation()) &&
+           LocationClient.locationSameIdentityAs(origin().idString(), itinerary.initialDepartureLocation().idString()) &&
+           LocationClient.locationSameIdentityAs(destination().idString(), itinerary.finalArrivalLocation().idString()) &&
            arrivalDeadline().after(itinerary.finalArrivalDate());
   }
 
