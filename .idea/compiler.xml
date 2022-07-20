@@ -6,22 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="dddsample" />
         <module name="client" />
-        <module name="location" />
-        <module name="monolith" />
-        <module name="common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="client" target="1.8" />
       <module name="dddsample" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="common" options="-parameters" />
       <module name="dddsample" options="-parameters" />
-      <module name="location" options="-parameters" />
-      <module name="monolith" options="-parameters" />
     </option>
   </component>
 </project>
