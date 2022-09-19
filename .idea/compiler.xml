@@ -8,12 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="dddsample" />
         <module name="client" />
+        <module name="location" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="client" target="1.8" />
-      <module name="dddsample" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

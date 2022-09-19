@@ -13,8 +13,8 @@ public class LocationRepositoryHibernate extends HibernateRepository implements 
 
   public Location find(final UnLocode unLocode) {
     return (Location) getSession().
-      createQuery("from Location where unLocode = ?").
-      setParameter(0, unLocode).
+      createQuery("from Location where unLocode.unlocode = ?").
+      setParameter(0, unLocode.getUnlocode()).
       uniqueResult();
   }
 

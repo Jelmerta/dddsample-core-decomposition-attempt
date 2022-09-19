@@ -10,6 +10,7 @@
       <generator class="org.hibernate.id.IdentityGenerator"/>
     </id>
     <component name="unLocode" unique="true" update="false">
+      <property name="referenceId" column="referenceId" not-null="true"/>
       <property name="unlocode" column="unlocode" not-null="true"/>
     </component>
     <property name="name" column="name" not-null="true"/>

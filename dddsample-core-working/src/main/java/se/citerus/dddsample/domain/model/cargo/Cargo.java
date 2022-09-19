@@ -5,7 +5,7 @@ import org.apache.commons.lang.Validate;
 import se.citerus.dddsample.domain.model.handling.HandlingHistory;
 import se.citerus.dddsample.domain.model.location.Location;
 import se.citerus.dddsample.domain.shared.DomainObjectUtils;
-import se.citerus.dddsample.client.location.Entity;
+import se.citerus.dddsample.domain.shared.Entity;
 
 /**
  * A Cargo. This is the central class in the domain model,

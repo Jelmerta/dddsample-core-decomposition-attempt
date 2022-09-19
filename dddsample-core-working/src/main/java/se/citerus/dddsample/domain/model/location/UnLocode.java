@@ -1,19 +1,14 @@
 package se.citerus.dddsample.domain.model.location;
 
-import client.rmiinterface.LocationServiceInterface;
-import client.rmiinterface.ObjectInterface;
-import client.rmiinterface.UnLocodeInterface;
-import client.rmiserver.ObjectImpl;
-import client.rmiserver.ObjectWrapper;
+import client.rmiinterface.UnLocodeService;
 import org.apache.commons.lang.Validate;
 import se.citerus.dddsample.domain.shared.ValueObject;
 
-import java.io.Serializable;
+import javax.annotation.Nonnull;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
 /**
@@ -32,12 +27,13 @@ import java.util.regex.Pattern;
 //
 //The server should specify the system property java.rmi.server.codebase. The value must be a URL that is accessible to the client, from which the necessary classes can be loaded. If this is a file: URL, the file system must be accessible to the client.
 public final class UnLocode implements ValueObject<UnLocode> {
+  private String referenceId;
 
-  private static LocationServiceInterface service;
-  private UnLocodeInterface unLocode; // This field can be null even though it is initialized (not null) in the constructor
+  private static UnLocodeService unLocodeService; // This field can be null even though it is initialized (not null) in the constructor
   // Believe this happens because it is loaded from database and Hibernate does not store this field
   // We could dynamically get this from the location service lookup with some unique id?... Big trade-off though... Needed when deserialization is required, it seems?
   // Maybe null check?
+  @Nonnull
   private String unlocode; // TODO Required for Hibernate. The getters and setters however, should also be implemented
   // TODO Finding this out probably requires runtime analysis or something...
 
@@ -45,7 +41,7 @@ public final class UnLocode implements ValueObject<UnLocode> {
     checkBinding();
 
     try {
-      return unLocode.getUnlocode();
+      return unLocodeService.getUnlocode(referenceId);
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     }
@@ -56,7 +52,7 @@ public final class UnLocode implements ValueObject<UnLocode> {
 
     this.unlocode = unlocode; // Note: This is not a good idea to duplicate the data here and in the location service, but Hibernate directly accesses the field for storage instead of using the getter, it seems.
     try {
-      unLocode.setUnlocode(unlocode);
+      unLocodeService.setUnlocode(this.referenceId, unlocode);
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     }
@@ -67,29 +63,11 @@ public final class UnLocode implements ValueObject<UnLocode> {
 	static {
 		try {
             Registry registry = LocateRegistry.getRegistry();
-            service = (LocationServiceInterface) registry.lookup("//localhost/MyServer");
+            unLocodeService = (UnLocodeService) registry.lookup("//localhost/Location");
 		} catch (NotBoundException | RemoteException e) {
 			throw new RuntimeException(e);
 		}
 	}
-//
-////	public static UnLocode createUnLocode(final String countryAndLocation) {
-////		try {
-////			return new UnLocodeImpl(countryAndLocation);//look_up.UnLocode(countryAndLocation);
-////		} catch (RemoteException e) {
-////			throw new RuntimeException(e); // TODO Error handling -> Very important to discuss
-////		}
-////	}
-//
-//	public String idString() {
-//		try {
-//			return look_up.idString();
-//		} catch (RemoteException e) {
-//			throw new RuntimeException(e); // TODO Error handling -> Very important to discuss
-//		}
-//	}
-//}
-
 
 
 //  private String unlocode; REQUIRED FOR HIBERNATE?
@@ -108,10 +86,12 @@ public final class UnLocode implements ValueObject<UnLocode> {
     Validate.notNull(countryAndLocation, "Country and location may not be null");
     Validate.isTrue(VALID_PATTERN.matcher(countryAndLocation).matches(),
             countryAndLocation + " is not a valid UN/LOCODE (does not match pattern)");
-    this.unlocode = countryAndLocation.toUpperCase();
+    this.unlocode = countryAndLocation.toUpperCase(); // TODO We cannot get rid of this because of hibernate?
 
     try {
-      this.unLocode = service.newUnLocode(countryAndLocation);
+      this.referenceId = unLocodeService.newUnLocode(countryAndLocation);
+      System.out.println("Creating UnLocode " + countryAndLocation);
+      System.out.println(referenceId);
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     }
@@ -124,7 +104,10 @@ public final class UnLocode implements ValueObject<UnLocode> {
     checkBinding();
 
     try {
-      return unLocode.idString();
+      System.out.println("idstringcall");
+      System.out.println(referenceId);
+      System.out.println(unlocode);
+      return unLocodeService.idString(referenceId);
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     }
@@ -132,36 +115,14 @@ public final class UnLocode implements ValueObject<UnLocode> {
 
   private void checkBinding() {
     try {
-      if (unLocode == null) {
+      if (unLocodeService == null) {
         Registry registry = LocateRegistry.getRegistry();
-        unLocode = (UnLocodeInterface) registry.lookup("//localhost/MyServer/" + unlocode); // TODO Could be an id instead?? Should be repoducable though. Maybe just concat all the field variables or something like that (security...), all constructor parameters?
+        unLocodeService = (UnLocodeService) registry.lookup("//localhost/MyServer/" + unlocode); // TODO Could be an id instead?? Should be repoducable though. Maybe just concat all the field variables or something like that (security...), all constructor parameters?
       }
     } catch (NotBoundException | RemoteException e) {
       throw new RuntimeException(e);
     }
   }
-
-//  public boolean equals(final Object o) {
-//    checkBinding();
-//    try {
-//      ObjectInterface objectInterface = new ObjectImpl(o);
-//      return unLocode.equalsCall(objectInterface);
-//    } catch (RemoteException e) {
-//      throw new RuntimeException(e);
-//    }
-
-//    ObjectWrapper objectWrapper = new ObjectWrapper(o);
-//    try {
-//      ObjectImpl objectInterface = new ObjectImpl(objectWrapper); // Use interface or not? TODO
-//      Registry registry = LocateRegistry.getRegistry();
-//      registry.rebind("//localhost/MyServer/Object/" + objectWrapper.hashCode(), objectInterface);
-
-//    try {
-//      return unLocode.equalsCall(o);
-//    } catch (RemoteException e) {
-//      throw new RuntimeException(e);
-//    }
-//  }
 
   @Override
   public boolean equals(final Object o) {
@@ -189,7 +150,8 @@ public final class UnLocode implements ValueObject<UnLocode> {
     other.checkBinding();
 
     try {
-      return unLocode.sameValueAs(other.unLocode);
+      // TODO Is reference id the value of the normal id? Why?
+      return unLocodeService.sameValueAs(referenceId, other.getReferenceId()); // TODO Encrypt
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     }
@@ -210,5 +172,20 @@ public final class UnLocode implements ValueObject<UnLocode> {
   UnLocode() {
     // Needed by Hibernate
   }
+
+  public String getReferenceId() {
+    return referenceId;
+  }
+
+  public void setReferenceId(String referenceId) {
+    this.referenceId = referenceId;
+  }
+
+//  public static void main(String[] args) {
+//    Method[] methods = UnLocode.class.getMethods();
+//    Method method = methods[0];
+//    method.get
+//
+//  }
 
 }

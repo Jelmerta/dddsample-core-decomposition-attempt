@@ -166,17 +166,17 @@ public class SampleDataGenerator {
 
     private static void loadLocationData(JdbcTemplate jdbcTemplate) {
         String locationSql =
-                "insert into Location (id, unlocode, name) " +
-                        "values (?, ?, ?)";
+                "insert into Location (id, referenceId, unlocode, name) " +
+                        "values (?, ?, ?, ?)";
 
         Object[][] locationArgs = {
-                {1, "SESTO", "Stockholm"},
-                {2, "AUMEL", "Melbourne"},
-                {3, "CNHKG", "Hongkong"},
-                {4, "JPTOK", "Tokyo"},
-                {5, "FIHEL", "Helsinki"},
-                {6, "DEHAM", "Hamburg"},
-                {7, "USCHI", "Chicago"}
+                {1, "1", "SESTO", "Stockholm"},
+                {2, "2", "AUMEL", "Melbourne"},
+                {3, "3", "CNHKG", "Hongkong"},
+                {4, "4", "JPTOK", "Tokyo"},
+                {5, "5", "FIHEL", "Helsinki"},
+                {6, "6", "DEHAM", "Hamburg"},
+                {7, "7", "USCHI", "Chicago"}
         };
         executeUpdate(jdbcTemplate, locationSql, locationArgs);
     }

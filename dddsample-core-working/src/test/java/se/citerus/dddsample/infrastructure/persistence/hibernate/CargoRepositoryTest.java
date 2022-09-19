@@ -150,8 +150,12 @@ public class CargoRepositoryTest {
     @Test
     public void testSave() {
         TrackingId trackingId = new TrackingId("AAA");
+        // TODO When retrieving the Location from the location repository, it probably loses the reference id? I do see some assignment (1,2 etc)
+        // Are we storing the incorrect value into this field and a default assignment gets made?
+
         Location origin = locationRepository.find(STOCKHOLM.unLocode());
         Location destination = locationRepository.find(MELBOURNE.unLocode());
+
 
         Cargo cargo = new Cargo(trackingId, new RouteSpecification(origin, destination, new Date()));
         cargoRepository.store(cargo);
